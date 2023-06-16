@@ -1,0 +1,261 @@
+.CuStom_package_image img{
+    height: 100%;
+}
+
+.CuStom_package {
+  border: 2px solid #b8b8b8;
+  border-left: none;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 0px 10px 10px 0px;
+}
+
+.inner_CuStom_package {
+  height: 90%;
+  width: 85%;
+  border: 2px solid #b8b8b8;
+  border-radius: 10px 10px 10px 10px;
+}
+
+.CuStom_package_header {
+  text-align: center;
+  background-color: #09646d;
+  color: white;
+  height: 20%;
+  display: grid;
+  place-items: center;
+  border-radius: 10px 10px 0px 0px;
+  margin: -2px;
+  font-size: 24px;
+}
+
+.CuStom_package_content {
+  padding: 10px 20px;
+}
+
+.CuStom_package_content p {
+  font-size: 20px;
+}
+
+.CuStom_package_content span {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.CuStom_package_icon {
+  color: #ffd600;
+}
+
+.CuStom_package_images {
+  display: flex;
+}
+
+.CuStom_package_images p {
+  font-weight: 300;
+  font-size: 11.1135px;
+  text-align: center;
+}
+
+.CuStom_package_btn {
+  width: 100%;
+  background-color: #ff630c;
+  border-radius: 10px;
+  border: none;
+  height: 44px;
+  font-weight: 400;
+  font-size: 18px;
+  color: white;
+}
+
+.CuStom_package_btn_2{
+    background-color: #09646D;
+}
+
+.amh_to_hima{
+  padding: 20px 30px 30px 30px;
+}
+
+.amh_to_hima_border{
+  border: 1px solid #b8b8b8;
+  border-radius: 10px 0px 0px 10px;
+}
+
+.amh_to_hima_border_2{
+  border-radius: 0px 10px 10px 0px; 
+}
+
+/*--------------------- amh_to_hima ----------------------*/
+
+.amh_to_hima{
+  border: 2px solid #b8b8b8;
+  border-radius: 5px;
+
+}
+
+.cmn_2{
+  padding: 28px 40px;
+}
+
+.package_service{
+  padding: 10px 24px;
+}
+
+.cmn__3{
+  padding: 30px 30px;
+}
+
+.cmn__3 h6{
+  font-weight: 600  ;
+}
+
+.cmnp{
+  font-weight: 500;
+}
+
+
+/*------------------------------ my_package_content --------------------------------------*/
+
+.my_package_content{
+  padding: 18px 20px;
+}
+
+.my_package_content p, .my_package_content span, .my_package_content button{
+  font-size: 16px;
+}
+
+.my_package_content a{
+  text-decoration: none;
+  font-size: 14px;
+  color: #FF4C04;
+}
+
+.my_package_content a:hover{
+  color: #FF4C04;
+}
+
+@media (max-width: 1199.98px) {
+    .inner_CuStom_package {
+        height: 90%;
+        width: 85%;
+      }
+
+    .CuStom_package_content p {
+        margin-bottom: 6px !important;
+    }
+
+    .my_package_content p{
+      margin-bottom: 3px !important;
+    }
+
+
+    .CuStom_package_btn{
+        height: 35px;
+        width: 80%;
+    }
+
+    .my_package_content{
+      padding: 12px 20px;
+    }
+      
+}
+
+@media (max-width: 991.98px) {
+    .CuStom_package_header{
+        font-size: 20px;
+        border-radius: 0px;
+    }
+    .inner_CuStom_package {
+        height: 100%;
+        width: 100%;
+        border: none;
+        border-bottom: none;
+        border-radius: 0px;
+      }
+    .CuStom_package_content p {
+        font-size: 14px;
+    } 
+    .CuStom_package_images p {
+        font-weight: 300;
+        font-size: 8px;
+    }
+    .CuStom_package_content span {
+        font-size: 16px;
+        font-weight: 600;
+    }
+    .CuStom_package_btn {
+        font-size: 14px;
+    }
+    .CuStom_package_images img{
+        width: 80%;
+    }
+    .CuStom_package_btn{
+        height: 25px;
+        width: 80%;
+    }
+    .my_package_content{
+      padding: 6px 20px;
+    }
+    .my_package_btn{
+        height: 25px;
+        width: 100%;
+        font-size: 12px ;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .CuStom_package{
+    }
+    .CuStom_package {
+        border: 2px solid #b8b8b8;
+        margin-top: 10px;
+        padding-bottom: 30px;
+        border-radius: 10px;
+      }
+    .CuStom_package_content {
+        padding: 10px 20px;
+      }
+      
+      .CuStom_package_content p {
+        font-size: 20px;
+      }
+      
+      .CuStom_package_content span {
+        font-size: 20px;
+        font-weight: 600;
+      }
+      
+      .CuStom_package_icon {
+        color: #ffd600;
+      }
+      
+      .CuStom_package_images {
+        display: flex;
+      }
+      
+      .CuStom_package_images p {
+        font-weight: 300;
+        font-size: 11.1135px;
+        text-align: center;
+      }
+      
+      .CuStom_package_btn {
+        width: 100%;
+        background-color: #ff630c;
+        border-radius: 10px;
+        border: none;
+        height: 44px;
+        font-weight: 400;
+        font-size: 18px;
+        color: white;
+      }
+      
+      .CuStom_package_btn_2{
+          background-color: #09646D;
+      }
+}
+
+@media (max-width: 575.98px) {
+
+}

@@ -1,0 +1,443 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  button {
+    font-family: "Poppins", sans-serif;
+    font-weight: 600;
+  }
+
+
+.himachal-head {
+    padding-top: 40px;
+}
+
+.himachal {
+    background: url('/public/bkg.png');
+    background-position: center;
+    height: 320px;
+    width: 100%;
+    background-size: cover;
+    background-repeat: no-repeat;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.himachal h1 {
+    font-weight: 600;
+    font-size: 6rem;
+    line-height: 144px;
+    color: #fff;
+}
+
+.package-offer {
+    border: 2px solid #cdc9c9;
+    border-radius: 10px;
+    text-align: center;
+    width: 49%;
+    font-size: 20px;
+
+}
+
+.package-offer p {
+    font-weight: 500;
+    margin-bottom: 0;
+    padding: 15px 0px;
+}
+
+.package-offer span {
+    font-weight: 600;
+    color: #09646D;
+}
+
+
+/*----------- filter  ----------*/
+
+.filter,
+.tourplaces {
+    border: 1px solid rgb(215, 214, 214);
+    border-radius: 10px;
+}
+
+.filter ul li {
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    color: #393939
+}
+
+.input-margin {
+    margin-right: 8px;
+    margin-bottom: 10px;
+}
+
+.filter-headers {
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 30px;
+}
+
+.filters-inner {
+
+    font-weight: 600;
+    font-size: 17px;
+    line-height: 30px;
+}
+
+
+.sort-list {}
+
+.list-none {
+    list-style: none;
+}
+
+.select-day {
+    border-radius: 5px;
+    padding: 4px 6px;
+    border: 2px solid rgb(186, 184, 184);
+}
+
+
+/*------------ tourplaces -----------*/
+
+.tourplaces {}
+
+.Rating {
+    position: relative;
+    display: inline-block;
+}
+
+.Rating span {
+    position: absolute;
+    top: 10%;
+    right: 0;
+    background: #09646D;
+    border-radius: 10px 0px 0px 10px;
+    color: #ffffff;
+    padding: 4px 4px;
+}
+
+.Rating span i {
+    color: #FFD600;
+}
+
+.jiji {
+    max-width: 350px;
+    border: 1px solid rgb(215, 214, 214);
+    border-radius: 10px;
+}
+
+.best_natural_places{
+    border: 1px solid rgb(215, 214, 214);
+    border-radius: 10px;
+}
+
+.customise {
+    padding: 10px 15px 24px 15px;
+}
+.customise2{
+    padding: 10px 15px 10px 15px;
+    position: relative;
+}
+
+.customise_span{
+    position: absolute;
+    right: 4%;
+    bottom: 14%;
+}
+
+.customise h5 {
+    font-weight: 600;
+    font-size: 22px;
+    line-height: 30px;
+}
+
+.customise h4 {
+    text-align: end;
+    font-weight: 700;
+    font-size: 22px;
+    color: #044711;
+}
+
+.customise span {
+    font-weight: 400;
+    font-size: 10px;
+}
+
+.per-person h5 {
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 21px;
+    /* identical to box height */
+
+
+    color: #929292;
+}
+
+.for {
+    display: flex;
+    justify-content: space-evenly;
+    margin-top: 20px;
+}
+
+.per-person p {
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 21px;
+    /* identical to box height */
+
+
+    color: #929292;
+}
+
+.Customize-btn {
+    text-align: center;
+}
+
+.Customize-btn button {
+    font-family: "Poppins", sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    background: #09646D;
+    border-radius: 10px;
+    text-decoration: none;
+    color: #fff;
+    width: 100%;
+    height: 40px;
+    border: none;
+}
+
+.Customize-btn-2 button{
+    border-radius: 0px 0px 10px 10px;
+}
+
+.Customize-btn a:hover{
+    color: white;
+}
+
+.paragraph {
+    border: 1px solid rgb(231, 226, 226);
+    padding: 20px 40px 10px 40px;
+}
+
+.paragraph p {
+    text-align: justify;
+}
+
+.bt-filter {
+    border-radius: 5px;
+    height: 40px;
+    width: 80px;
+    background-color: #044711;
+    color: #ffffff;
+}
+
+/*---------- media query ------------*/
+
+@media (max-width: 1399.98px) {
+
+    .himachal {
+        height: 280px;
+        width: 100%;
+    }
+
+    .himachal h1 {
+        font-size: 96px;
+    }
+}
+
+
+@media (max-width: 1199.98px) {
+
+    .himachal {
+        height: 250px;
+        width: 100%;
+    }
+
+    .himachal h1 {
+        font-size: 76px;
+    }
+}
+
+
+@media (max-width: 991.98px) {
+    .himachal {
+        height: 173px;
+        width: 100%;
+    }
+
+    .himachal h1 {
+        font-size: 56px;
+    }
+
+    .package-offer {
+        font-size: 18px;
+    }
+
+    .jiji {
+        max-width: 250px;
+    }
+
+    .customise {
+        padding: 10px 6px 24px 6px;
+    }
+
+    .customise h5 {
+        font-size: 20px;
+        line-height: 15px;
+    }
+
+    .customise h4 {
+        font-size: 16px;
+        line-height: 15px;
+    }
+
+    .customise span {
+        font-size: 10px;
+        line-height: 15px;
+    }
+
+    .per-person h5 {
+        font-size: 14px;
+    }
+
+    .per-person p {
+        font-weight: 400;
+        font-size: 12px;
+        line-height: 21px;
+    }
+
+    .Customize-btn a {
+        font-size: 12px;
+        padding: 7px 15px;
+    }
+}
+
+
+@media (max-width: 767.98px) {
+
+    .himachal-head {
+        padding-top: 20px;
+    }
+
+    .himachal {
+        height: 130px;
+        width: 100%;
+    }
+
+    .himachal h1 {
+        font-size: 36px;
+    }
+
+    .jiji {
+        max-width: 100%;
+    }
+
+    .package-offer {
+        font-size: 16px;
+    }
+
+    .tour-places h5 {
+        font-size: 70%;
+    }
+
+    .paragraph {
+        padding: 20px 25px 10px 25px;
+    }
+}
+
+
+@media (max-width: 575.98px) {
+
+    .himachal {
+        height: 103px;
+        width: 100%;
+    }
+
+    .himachal h1 {
+        font-size: 26px;
+    }
+
+    .time-to-visit {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .package-offer {
+        width: 80%;
+        font-size: 14px;
+    }
+
+    .package-offer p {
+        padding: 8px 0px;
+    }
+
+    .tour-places h5 {
+        font-size: 60%;
+    }
+
+    .jiji {
+        max-width: 100%;
+    }
+
+    .customise {
+        padding: 8px 4px 10px 4px;
+    }
+
+    .customise h5 {
+        font-size: 22px;
+    }
+
+    .customise h4 {
+        font-size: 22px;
+    }
+
+    .customise h4 i {
+        font-size: 22px;
+    }
+
+    .customise span {
+        font-size: 8px;
+    }
+
+    .per-person h5 {
+        font-size: 12px;
+    }
+
+    .per-person p {
+        font-size: 10px;
+        line-height: 20px;
+    }
+
+    .Customize-btn a {
+        font-size: 10px;
+        padding: 5px 10px;
+    }
+
+    .paragraph h4 {
+        font-size: 16px;
+    }
+
+    .paragraph {
+        padding: 20px 20px 10px 20px;
+    }
+
+    .paragraph p {
+        font-size: 12px;
+    }
+    .himachal_train_vector img{
+        width: 5%;
+    }
+}
