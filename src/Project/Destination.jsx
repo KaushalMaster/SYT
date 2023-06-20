@@ -3,7 +3,7 @@ import "./css/Destination.css";
 import Header from "./Header";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
-import { useNavigate, useParams } from "react-router-dom";
+import { NavLink, useNavigate, useParams } from "react-router-dom";
 import { Navigate } from "react-router-dom";
 import { Button, Modal } from "react-bootstrap";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -26,15 +26,12 @@ function Destination(props) {
   const handleShow = () => setShow(true);
 
   const destinationDetail = async () => {
-    const res = await fetch(
-      `https://start-your-tour.onrender.com/placetovisit/${id}`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
+    const res = await fetch(`http://54.89.214.143:3000/placetovisit/${id}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
     const data = await res.json();
     console.log(data.data);
     setDestination(data.data);
@@ -58,6 +55,7 @@ function Destination(props) {
   useEffect(() => {
     destinationDetail();
     packageDetail();
+    window.scrollTo(0, 0);
   }, [id]);
 
   const responsive = {
@@ -585,51 +583,65 @@ function Destination(props) {
                       <>
                         <div
                           class="d-flex justify-content-center col-xl-6 col-lg-6 col-md-6 col-sm-12"
-                          onClick={() => {
-                            navigate(`/packega_details/${ele._id}`);
-                          }}
                           style={{ cursor: "pointer" }}
                         >
-                          <div class="rating-top jiji">
-                            <div class="Rating">
-                              <img
-                                src="/bkg-1-1.png"
-                                alt=""
-                                class="img-fluid"
-                              />
-                              <span>
-                                <FontAwesomeIcon
-                                  icon={faStar}
-                                  style={{ color: "yellow" }}
-                                />{" "}
-                                4.3
-                              </span>
+                          <NavLink
+                            to={`/packega_details/${ele._id}`}
+                            style={{ textDecoration: "none", color: "#044711" }}
+                          >
+                            <div className="rating-top jiji mb-5">
+                              <div class="Rating">
+                                <img
+                                  src="/bkg-1-1.png"
+                                  alt=""
+                                  class="img-fluid"
+                                />
+                                <span>
+                                  <FontAwesomeIcon
+                                    icon={faStar}
+                                    style={{ color: "yellow" }}
+                                  />{" "}
+                                  4.3
+                                </span>
+                              </div>
+                              <div class="customise">
+                                <div class="d-flex justify-content-between">
+                                  <h5>Himachal</h5>
+                                  <h4 className="d-inline">
+                                    <i class="fa-solid fa-indian-rupee-sign"></i>{" "}
+                                    {ele.price_per_person}
+                                    <br />
+                                    <span>per person</span>
+                                  </h4>
+                                </div>
+                                <div class="per-person d-flex justify-content-between">
+                                  <h5>per person (travel included)</h5>
+                                  <p>{ele.days}</p>
+                                </div>
+                                <div class="mb-4">
+                                  <img src="/Vector.png" alt="" class="me-2" />
+                                  <img
+                                    src="/Vector1.2.png"
+                                    alt=""
+                                    class="me-2"
+                                  />
+                                  <img
+                                    src="/Vector1.3.png"
+                                    alt=""
+                                    class="me-2"
+                                  />
+                                  <img
+                                    src="/Vector1.4.png"
+                                    alt=""
+                                    class="me-2"
+                                  />
+                                </div>
+                                <div class="Customize-btn">
+                                  <button>Customize & Get Quotes</button>
+                                </div>
+                              </div>
                             </div>
-                            <div class="customise">
-                              <div class="d-flex justify-content-between">
-                                <h5>Himachal</h5>
-                                <h4 className="d-inline">
-                                  <i class="fa-solid fa-indian-rupee-sign"></i>{" "}
-                                  {ele.price_per_person}
-                                  <br />
-                                  <span>per person</span>
-                                </h4>
-                              </div>
-                              <div class="per-person d-flex justify-content-between">
-                                <h5>per person (travel included)</h5>
-                                <p>{ele.days}</p>
-                              </div>
-                              <div class="mb-4">
-                                <img src="/Vector.png" alt="" class="me-2" />
-                                <img src="/Vector1.2.png" alt="" class="me-2" />
-                                <img src="/Vector1.3.png" alt="" class="me-2" />
-                                <img src="/Vector1.4.png" alt="" class="me-2" />
-                              </div>
-                              <div class="Customize-btn">
-                                <button>Customize & Get Quotes</button>
-                              </div>
-                            </div>
-                          </div>
+                          </NavLink>
                         </div>
                       </>
                     );

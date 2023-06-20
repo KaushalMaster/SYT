@@ -115,7 +115,7 @@ function App() {
               <ids.Provider value={{ bidId, setBidId }}>
                 <hotelName.Provider value={{ hotel, setHotel }}>
                   <Itineries.Provider value={{ tineriesId, setItineriesId }}>
-                    <Routes>
+                    <Routes>S
                       <Route path="/" element={<Index />} />
                       <Route path="/user/registration" element={<Signup />} />
                       <Route path="/blog" element={<Blog />} />

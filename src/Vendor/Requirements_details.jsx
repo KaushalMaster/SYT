@@ -29,7 +29,7 @@ function Requirements_details(props) {
   const Requirement = async () => {
     const token = localStorage.getItem("vendorToken");
     const res = await fetch(
-      `https://start-your-tour.onrender.com/customrequirements/details?_id=${id}`,
+      `http://54.89.214.143:3000/customrequirements/details?_id=${id}`,
       {
         method: "GET",
         headers: {
@@ -43,8 +43,37 @@ function Requirements_details(props) {
     setDetails(data.data);
   };
 
+  const [BidData, setBidData] = useState([]);
+  const [BidDataId, setBidDataId] = useState();
+
+  const getBidPackage = async () => {
+    const token = localStorage.getItem("vendorToken");
+    const res = await fetch("http://54.89.214.143:3000/bidpackage/agencybid", {
+      method: "GET",
+      headers: {
+        Authorization: token,
+        "Content-Type": "application/json",
+      },
+    });
+    const data = await res.json();
+    console.log(data);
+
+    const matchingBidPackage = data.data.find(
+      (bidPackage) => bidPackage.custom_requirement_id === id
+    );
+
+    if (matchingBidPackage) {
+      console.log(matchingBidPackage);
+      setBidData(matchingBidPackage);
+      setBidDataId(matchingBidPackage._id);
+    } else {
+      console.log("No matching bid package found.");
+    }
+  };
+
   useEffect(() => {
     Requirement();
+    getBidPackage();
   }, [id]);
 
   return (
@@ -108,6 +137,18 @@ function Requirements_details(props) {
                     <div className="requirements_details_1 green_border_requirments">
                       <div className="p-3">
                         <span className="cmnbkg span_squar">1</span>
+                        <p className="text-end">
+                          Status :{" "}
+                          <span
+                            style={{
+                              fontWeight: "500",
+                              color: "green",
+                              fontSize: "20px",
+                            }}
+                          >
+                            {BidData.bid_status}
+                          </span>
+                        </p>
                         <div className="py-2 px-xl-4 px-lg-4 px-md-3 px-sm-2 px-1">
                           <Row className="py-2">
                             <div className="col-lg-4 col-md-6">

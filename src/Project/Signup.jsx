@@ -65,7 +65,7 @@ function Signup(props) {
       return;
     }
 
-    const res = await fetch("https://start-your-tour.onrender.com/user", {
+    const res = await fetch("http://54.89.214.143:3000/user", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

@@ -42,16 +42,13 @@ function Profile(props) {
 
   const token = localStorage.getItem("userToken");
   const Profile = async () => {
-    const res = await fetch(
-      "https://start-your-tour.onrender.com/user/userprofile",
-      {
-        method: "GET",
-        headers: {
-          Authorization: token,
-          "Content-Type": "application/json",
-        },
-      }
-    );
+    const res = await fetch("http://54.89.214.143:3000/user/userprofile", {
+      method: "GET",
+      headers: {
+        Authorization: token,
+        "Content-Type": "application/json",
+      },
+    });
     const data = await res.json();
     console.log(data.data[0]);
     setUserProfile2(data.data[0]);
@@ -63,24 +60,21 @@ function Profile(props) {
 
     const { name, email_address, city, state } = userProfile;
     const { phone, password } = userProfile2;
-    const res = await fetch(
-      "https://start-your-tour.onrender.com/user/changeprofile",
-      {
-        method: "PUT",
-        headers: {
-          Authorization: token,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          name,
-          email_address,
-          phone: Number(phone),
-          password,
-          city,
-          state,
-        }),
-      }
-    );
+    const res = await fetch("http://54.89.214.143:3000/user/changeprofile", {
+      method: "PUT",
+      headers: {
+        Authorization: token,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name,
+        email_address,
+        phone: Number(phone),
+        password,
+        city,
+        state,
+      }),
+    });
     const data = await res.json();
     console.log(data);
   };
@@ -102,20 +96,17 @@ function Profile(props) {
 
     const { old_password, new_password } = password;
 
-    const res = await fetch(
-      "https://start-your-tour.onrender.com/user/updatepassword",
-      {
-        method: "PUT",
-        headers: {
-          Authorization: token,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          old_password,
-          new_password,
-        }),
-      }
-    );
+    const res = await fetch("http://54.89.214.143:3000/user/updatepassword", {
+      method: "PUT",
+      headers: {
+        Authorization: token,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        old_password,
+        new_password,
+      }),
+    });
     const data = await res.json();
     console.log(data);
   };

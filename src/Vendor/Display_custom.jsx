@@ -18,10 +18,12 @@ import Side_navbar from "./Side_navbar";
 import My_pannel from "./My_pannel";
 import Header from "../Project/Header";
 import Header2 from "./Header2";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 function Display_custom(props) {
   const navigate = useNavigate();
+
+  const { id } = useParams();
 
   const [showPackageData, setShowPackageData] = useState([]);
 
@@ -29,7 +31,7 @@ function Display_custom(props) {
     const token = localStorage.getItem("vendorToken");
 
     const res = await fetch(
-      "https://start-your-tour.onrender.com/customrequirements/Agencyshowdata",
+      "http://54.89.214.143:3000/customrequirements/Agencyshowdata",
       {
         method: "GET",
         headers: {
@@ -112,7 +114,7 @@ function Display_custom(props) {
                           style={{
                             backgroundColor: "#ffffff",
                             cursor: "pointer",
-                            height: "300px",
+                            height: "350px",
                           }}
                         >
                           <div className="col-1 px-xl-2 px-lg-0 px-md-0 px-sm-0 costum_requirments_span">
@@ -143,6 +145,9 @@ function Display_custom(props) {
                               <p className="cmnp ps-1">
                                 {ele.start_date} to {ele.end_date}
                               </p>
+                            </div>
+                            <div className="d-flex align-item-center pt-2 py-1">
+                              <p className="cmnp ps-1">Status: </p>
                             </div>
                             <div className="py-1">
                               <span
@@ -184,7 +189,6 @@ function Display_custom(props) {
                     </>
                   );
                 })}
-
               {/* <div className="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                 <div
                   className="row only_for_green_border p-xl-3 p-lg-3 p-md-3 p-sm-3 p-2 costum_requirments"

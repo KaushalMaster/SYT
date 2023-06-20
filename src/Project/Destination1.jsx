@@ -12,7 +12,7 @@ function Destination1(props) {
   const { categoryData, setCategoryData } = useContext(categoryName);
 
   const navigate = useNavigate();
-  const { id } = useParams(); 
+  const { id } = useParams();
 
   const [destination, setDestination] = useState([]);
 
@@ -23,7 +23,7 @@ function Destination1(props) {
 
   const destinationCategory = async () => {
     const res = await fetch(
-      `https://start-your-tour.onrender.com/destination/getDestinations?category_id=${id}`,
+      `http://54.89.214.143:3000/destination/getDestinations?category_id=${id}`,
       {
         method: "GET",
         headers: {
@@ -38,6 +38,7 @@ function Destination1(props) {
 
   useEffect(() => {
     destinationCategory();
+    window.scrollTo(0, 0);
   }, [id]);
 
   return (

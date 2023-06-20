@@ -33,7 +33,7 @@ const Slider = () => {
   };
 
   const HomeData = async () => {
-    const res = await fetch("https://start-your-tour.onrender.com/home", {
+    const res = await fetch("http://54.89.214.143:3000/home", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -73,13 +73,15 @@ const Slider = () => {
                 }}
                 style={{ cursor: "pointer" }}
               >
-                <img
-                  src={"/img1.png" || ele.photo}
-                  alt=""
-                  className="img-fluid w-75 "
-                  style={{ cursor: "pointer" }}
-                />
-                <p className="name_c ">{ele.category_name}</p>
+                <div>
+                  <img
+                    src={"/img1.png" || ele.photo}
+                    alt=""
+                    className="img-fluid w-75 "
+                    style={{ cursor: "pointer" }}
+                  />
+                  <p className="name_c ">{ele.category_name}</p>
+                </div>
               </SwiperSlide>
             </>
           );

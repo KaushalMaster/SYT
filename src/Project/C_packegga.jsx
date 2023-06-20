@@ -59,16 +59,13 @@ function C_packegga(props) {
 
   const token = localStorage.getItem("userToken");
   const ShowPackage = async () => {
-    const res = await fetch(
-      "https://start-your-tour.onrender.com/customrequirements",
-      {
-        method: "GET",
-        headers: {
-          Authorization: token,
-          "Content-Type": "application/json",
-        },
-      }
-    );
+    const res = await fetch("http://54.89.214.143:3000/customrequirements", {
+      method: "GET",
+      headers: {
+        Authorization: token,
+        "Content-Type": "application/json",
+      },
+    });
     const data = await res.json();
     console.log(data.data[0].Trip_id);
     setPackages(data.data);
@@ -76,7 +73,7 @@ function C_packegga(props) {
 
   const Show_Packages = async (id) => {
     const res = await fetch(
-      `https://start-your-tour.onrender.com/bidpackage/displaybidpackages?custom_requirement_id=${id}`,
+      `http://54.89.214.143:3000/bidpackage/displaybidpackages?custom_requirement_id=${id}`,
       {
         method: "GET",
         headers: {

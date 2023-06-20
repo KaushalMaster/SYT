@@ -19,25 +19,11 @@ import {
   faTrashAlt,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-// import Tab from "react-bootstrap/Tab";
-// import Tabs from "react-bootstrap/Tabs";
-import Overview from "./Overview";
-import Itinerary from "./Itinerary";
-import Hotels from "./Hotels";
-import Services from "./Services";
-import {
-  Route,
-  Router,
-  Routes,
-  Link,
-  useParams,
-  NavLink,
-} from "react-router-dom";
+import { useParams, NavLink } from "react-router-dom";
 import My_pannel from "./My_pannel";
-import Header from "../Project/Header";
 import "../Project/css/index1.css";
 import Header2 from "./Header2";
-import { Container, Form, Row } from "react-bootstrap";
+import { Form, Row } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
@@ -113,6 +99,7 @@ function Submit_package_form(props) {
   const { id } = useParams();
   const [value, setValue] = React.useState(0);
   const [details, setDetails] = useState([]);
+  console.log(details);
   const [detailsData, setDetailsData] = useState({
     total_adult: "",
     Infant: "",
@@ -205,6 +192,8 @@ function Submit_package_form(props) {
     });
   };
 
+  const [isSearchable, setIsSearchable] = useState(false);
+
   const colourOptions = [
     { value: "5 Star", label: "5 Star" },
     { value: "4 Star", label: "4 Star" },
@@ -252,30 +241,6 @@ function Submit_package_form(props) {
     setSelectedTravelBy(selectedOptions);
   };
 
-  // const [bidId, setBidId] = useState("");
-  // console.log(bidId);
-
-  const BidId = sessionStorage.getItem("BidId");
-
-  const Requirement = async () => {
-    const token = localStorage.getItem("vendorToken");
-    const res = await fetch(
-      `https://start-your-tour.onrender.com/customrequirements/details?_id=${id}`,
-      {
-        method: "GET",
-        headers: {
-          Authorization: token,
-          "Content-Type": "application/json",
-        },
-      }
-    );
-    const data = await res.json();
-    console.log(data.data);
-    setDetails(data.data);
-    setPricePerPerson(data.data[0].budget_per_person);
-    // setDays(data.data[0].total_days);
-  };
-
   // const BidId = bidId;
 
   const [it, setIt] = useState([]);
@@ -285,7 +250,7 @@ function Submit_package_form(props) {
     const token = localStorage.getItem("vendorToken");
     const BidId = sessionStorage.getItem("BidId");
     const res = await fetch(
-      `https://start-your-tour.onrender.com/itinerary?bid_id=${BidId}`,
+      `http://54.89.214.143:3000/itinerary?bid_id=${BidId}`,
       {
         method: "GET",
         headers: {
@@ -298,6 +263,64 @@ function Submit_package_form(props) {
     console.log(data.data[0]);
     setIt(data.data);
   };
+
+  const [displayData, setDisplayData] = useState([]);
+  console.log(displayData);
+
+  const Requirement = async () => {
+    const token = localStorage.getItem("vendorToken");
+    const res = await fetch(
+      `http://54.89.214.143:3000/customrequirements/details?_id=${id}`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: token,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    const data = await res.json();
+    console.log(data.data);
+    setDisplayData(data.data);
+    setPricePerPerson(data.data[0].budget_per_person);
+    // setDays(data.data[0].total_days);
+  };
+
+  const [BidData, setBidData] = useState([]);
+  const [BidDataId, setBidDataId] = useState();
+
+  const getBidPackage = async () => {
+    const token = localStorage.getItem("vendorToken");
+    const res = await fetch("http://54.89.214.143:3000/bidpackage/agencybid", {
+      method: "GET",
+      headers: {
+        Authorization: token,
+        "Content-Type": "application/json",
+      },
+    });
+    const data = await res.json();
+    console.log(data.data);
+
+    const matchingBidPackage = data.data.find(
+      (bidPackage) => bidPackage.custom_requirement_id === id
+    );
+
+    if (matchingBidPackage) {
+      console.log(matchingBidPackage);
+      setBidData(matchingBidPackage);
+      setBidDataId(matchingBidPackage._id);
+    } else {
+      console.log("No matching bid package found.");
+    }
+  };
+
+  // const funcDisplay = () => {
+  //   if (BidDataId) {
+  //     setDetails([BidData]);
+  //   } else {
+  //     setDetails(displayData);
+  //   }
+  // };
 
   const getBidDetails = async (e) => {
     e.preventDefault();
@@ -316,7 +339,8 @@ function Submit_package_form(props) {
 
     const { budget_per_person } = pricePerPerson;
     const token = localStorage.getItem("vendorToken");
-    const res = await fetch(`https://start-your-tour.onrender.com/bidpackage`, {
+
+    const res = await fetch(`http://54.89.214.143:3000/bidpackage`, {
       method: "POST",
       headers: {
         Authorization: token,
@@ -348,34 +372,73 @@ function Submit_package_form(props) {
     console.log(data.data);
     setBidId(data.data._id);
     sessionStorage.setItem("BidId", data.data._id);
-
-    // if (data.code == 200) {
-    //   navigate("/vendor/Submit-form");
-    // }
   };
 
-  const DisplayBid = async () => {
+  const LastSubmit = async (e) => {
+    e.preventDefault();
     const token = localStorage.getItem("vendorToken");
 
+    const {
+      total_adult,
+      Infant,
+      total_child,
+      destination_category,
+      other_Services,
+      price_per_person,
+      total_days,
+      personal_care,
+      total_nights,
+      total_amount,
+    } = detailsData;
+
+    const { budget_per_person } = pricePerPerson;
+
     const res = await fetch(
-      `https://start-your-tour.onrender.com/bidpackage/displaybidpackages?custom_requirement_id=${id}`,
+      `http://54.89.214.143:3000//bidpackage?bid_id=${id}`,
       {
-        method: "GET",
+        method: "PUT",
         headers: {
           Authorization: token,
           "Content-Type": "application/json",
         },
+        body: JSON.stringify({
+          custom_requirement_id: id,
+          total_adult,
+          Infant,
+          total_child,
+          destination_category,
+          other_Services,
+          meal_types: selectedMealTypes
+            .map((option) => option.value)
+            .join(", "),
+          meal_required: selectedMeals.map((option) => option.value).join(", "),
+          price_per_person: budget_per_person,
+          total_days: Number(total_days),
+          personal_care,
+          total_nights,
+          total_amount: Number(total_amount),
+          include_services: includeList,
+          exclude_services: excludeList,
+        }),
       }
     );
     const data = await res.json();
-    console.log(data.data[0]._id);
-    // setBidId(data.data[0]._id);
+    console.log(data);
   };
+
+  useEffect(() => {
+    if (BidDataId) {
+      setDetails([BidData]);
+    } else {
+      setDetails(displayData);
+    }
+  });
 
   useEffect(() => {
     getItinerary();
     Requirement();
-    DisplayBid();
+    // DisplayBid();
+    getBidPackage();
   }, [id]);
 
   // const [editorCount, setEditorCount] = useState(1);
@@ -475,6 +538,13 @@ function Submit_package_form(props) {
                                 className="green_border gy-2 gx-5 margin_left_right"
                                 style={{ backgroundColor: "#ffffff" }}
                               >
+                                {BidDataId ? (
+                                  <p className="text-end">Bid Data</p>
+                                ) : (
+                                  <p className="text-end">
+                                    Custome Requirement{" "}
+                                  </p>
+                                )}
                                 <p>
                                   <h3>
                                     {ele.departure} To {ele.destination}
@@ -540,33 +610,72 @@ function Submit_package_form(props) {
                                 <div className="row col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 py-1 ms-1">
                                   <div className="col-6 py-2">
                                     <p className="mb-2">Total Days</p>
-                                    <input
-                                      type="text"
-                                      name="total_days"
-                                      onChange={txtData}
-                                    />
+                                    {BidDataId ? (
+                                      <input
+                                        type="text"
+                                        name="total_days"
+                                        onChange={txtData}
+                                        value={ele.total_days}
+                                      />
+                                    ) : (
+                                      <input
+                                        type="text"
+                                        name="total_days"
+                                        onChange={txtData}
+                                      />
+                                    )}
                                   </div>
                                   <div className="col-6 py-2">
                                     <p className="mb-2">Total Night</p>
-                                    <input
-                                      type="text"
-                                      name="total_nights"
-                                      id=""
-                                      onChange={txtData}
-                                    />
+                                    {BidDataId ? (
+                                      <input
+                                        type="text"
+                                        name="total_nights"
+                                        id=""
+                                        onChange={txtData}
+                                        value={ele.total_nights}
+                                      />
+                                    ) : (
+                                      <input
+                                        type="text"
+                                        name="total_nights"
+                                        id=""
+                                        onChange={txtData}
+                                      />
+                                    )}
                                   </div>
                                 </div>
                                 <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 py-1">
                                   <p className="mb-2">Destination Category</p>
-                                  <input
-                                    type="text"
-                                    name="destination_category"
-                                    id=""
-                                    value={ele.destination_category
-                                      .map((e) => e.category_name)
-                                      .join(", ")}
-                                    onChange={txtData}
-                                  />
+                                  {BidDataId ? (
+                                    <input
+                                      type="text"
+                                      name="destination_category"
+                                      id=""
+                                      value={
+                                        ele.destination_category_name
+                                          ? ele.destination_category_name
+                                              .map((e) => e.category_name)
+                                              .join(", ")
+                                          : ""
+                                      }
+                                      onChange={txtData}
+                                    />
+                                  ) : (
+                                    <input
+                                      type="text"
+                                      name="destination_category"
+                                      id=""
+                                      value={
+                                        ele.destination_category
+                                          ? ele.destination_category
+                                              .map((e) => e.category_name)
+                                              .join(", ")
+                                          : ""
+                                      }
+                                      onChange={txtData}
+                                    />
+                                  )}
                                 </div>
                                 <div className="row col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 py-1 ms-1">
                                   <div className="col-xl-6 py-2">
@@ -574,10 +683,13 @@ function Submit_package_form(props) {
                                     <input
                                       type="text"
                                       name="hotel_type"
-                                      value={ele.hotel_type
-                                        .map((e) => e)
-                                        .join(", ")}
-                                      onChange={txtData}
+                                      value={
+                                        ele.hotel_type
+                                          ? ele.hotel_type
+                                              .map((e) => e)
+                                              .join(", ")
+                                          : ""
+                                      }
                                     />
                                   </div>
                                   <div className="col-xl-6 mt-xl-4">
@@ -589,19 +701,36 @@ function Submit_package_form(props) {
                                       className="basic-multi-select"
                                       classNamePrefix="select"
                                       onChange={updateHotelTypes}
+                                      isSearchable={isSearchable}
                                     />
                                   </div>
                                 </div>
                                 <div className="row col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 py-1 ms-1">
                                   <div className="col-xl-6 py-2">
                                     <p className="mb-2">Meal Type</p>
-                                    <input
-                                      type="text"
-                                      name="meal_type"
-                                      id=""
-                                      value={ele.meal_type}
-                                      onChange={txtData}
-                                    />
+                                    {BidDataId ? (
+                                      <input
+                                        type="text"
+                                        name="meal_type"
+                                        id=""
+                                        value={
+                                          ele.meal_types
+                                            ? ele.meal_types
+                                                .map((e) => e)
+                                                .join(", ")
+                                            : ""
+                                        }
+                                        onChange={txtData}
+                                      />
+                                    ) : (
+                                      <input
+                                        type="text"
+                                        name="meal_type"
+                                        id=""
+                                        value={ele.meal_type}
+                                        onChange={txtData}
+                                      />
+                                    )}
                                   </div>
                                   <div className="col-xl-6 mt-xl-4">
                                     <p className="mb-2 mt-3"></p>
@@ -616,21 +745,42 @@ function Submit_package_form(props) {
                                       className="basic-multi-select"
                                       classNamePrefix="select"
                                       onChange={txtMealType}
+                                      isSearchable={isSearchable}
                                     />
                                   </div>
                                 </div>
                                 <div className="row col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 py-1 ms-2">
                                   <div className="col-xl-6 py-2">
-                                    <p className="mb-2">Meals</p>
-                                    <input
-                                      type="text"
-                                      name="meal_require"
-                                      id=""
-                                      value={ele.meal_require
-                                        .map((e) => e)
-                                        .join(", ")}
-                                      onChange={txtData}
-                                    />
+                                    <p className="mb-2">Meals Required</p>
+                                    {BidDataId ? (
+                                      <input
+                                        type="text"
+                                        name="meal_require"
+                                        id=""
+                                        value={
+                                          ele.meal_required
+                                            ? ele.meal_required
+                                                .map((e) => e)
+                                                .join(", ")
+                                            : ""
+                                        }
+                                        onChange={txtData}
+                                      />
+                                    ) : (
+                                      <input
+                                        type="text"
+                                        name="meal_require"
+                                        id=""
+                                        value={
+                                          ele.meal_require
+                                            ? ele.meal_require
+                                                .map((e) => e)
+                                                .join(", ")
+                                            : ""
+                                        }
+                                        onChange={txtData}
+                                      />
+                                    )}
                                   </div>
                                   <div className="col-xl-6 mt-xl-4">
                                     <p className="mb-2 mt-3"></p>
@@ -645,6 +795,7 @@ function Submit_package_form(props) {
                                       className="basic-multi-select"
                                       classNamePrefix="select"
                                       onChange={txtMeals}
+                                      isSearchable={isSearchable}
                                     />
                                   </div>
                                 </div>
@@ -669,9 +820,13 @@ function Submit_package_form(props) {
                                       type="text"
                                       name="travel_by"
                                       id=""
-                                      value={ele.travel_by
-                                        .map((e) => e)
-                                        .join(", ")}
+                                      value={
+                                        ele.travel_by
+                                          ? ele.travel_by
+                                              .map((e) => e)
+                                              .join(", ")
+                                          : ""
+                                      }
                                       onChange={txtData}
                                     />
                                   </div>
@@ -688,6 +843,7 @@ function Submit_package_form(props) {
                                       className="basic-multi-select"
                                       classNamePrefix="select"
                                       onChange={txtTravel}
+                                      isSearchable={isSearchable}
                                     />
                                   </div>
                                 </div>
@@ -703,12 +859,28 @@ function Submit_package_form(props) {
                                 </div>
                                 <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 py-1">
                                   <p className="mb-2">Price Per Person</p>
-                                  <input
+                                  {BidDataId ? (
+                                    <input
+                                      type="text"
+                                      name="budget_per_person"
+                                      id=""
+                                      onChange={txtData}
+                                      value={ele.price_per_person}
+                                    />
+                                  ) : (
+                                    <input
+                                      type="text"
+                                      name="budget_per_person"
+                                      id=""
+                                      onChange={txtData}
+                                    />
+                                  )}
+                                  {/* <input
                                     type="text"
                                     name="budget_per_person"
                                     value={pricePerPerson.budget_per_person}
                                     onChange={txtPrice}
-                                  />
+                                  /> */}
                                 </div>
                                 <div className="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 py-1">
                                   <p className="mb-2">Total Amount</p>
@@ -759,161 +931,284 @@ function Submit_package_form(props) {
 
                       <div className="cmn py-3">
                         <div className="border_bottom_2">
-                          {includeList.map((includeItem, index) => (
+                          {BidDataId ? (
                             <>
-                              <div
-                                className="border_bottom_2_width ps-4 py-1"
-                                style={{ borderBottom: "1px solod #09646D" }}
-                              >
-                                <div
-                                  key={index}
-                                  style={{
-                                    display: "flex",
-                                    alignItems: "center",
-                                  }}
-                                >
-                                  <div
-                                    dangerouslySetInnerHTML={{
-                                      __html: includeItem,
-                                    }}
-                                  ></div>
-                                  <button
-                                    onClick={() => handleIncludeDelete(index)}
-                                    style={{
-                                      marginLeft: "auto",
-                                      border: "none",
-                                      background: "none",
-                                      cursor: "pointer",
-                                    }}
-                                  >
-                                    <FontAwesomeIcon icon={faTrashAlt} />
-                                  </button>
-                                </div>
-                                <div className="">
-                                  <ButtonGroup
-                                    aria-label="Basic example"
-                                    className="text-end"
-                                  >
-                                    <Button
+                              {details.map((ele, index) => {
+                                return (
+                                  <>
+                                    <div
+                                      className="border_bottom_2_width ps-4 py-1"
                                       style={{
-                                        background: "#09646D",
-                                        color: "#fff",
-                                        borderRadius: "10px 0 0 10px",
-                                        border: "none",
-                                      }}
-                                      className="text-end"
-                                    >
-                                      Include
-                                    </Button>
-                                    <Button
-                                      style={{
-                                        background: "#FFF",
-                                        color: "#B8B8B8",
-                                        border: "none",
+                                        borderBottom: "1px solod #09646D",
                                       }}
                                     >
-                                      Exclude
-                                    </Button>
-                                  </ButtonGroup>
-                                </div>
-                              </div>
+                                      <div
+                                        key={index}
+                                        style={{
+                                          display: "flex",
+                                          alignItems: "center",
+                                        }}
+                                      >
+                                        <div
+                                          dangerouslySetInnerHTML={{
+                                            __html: ele.include_services,
+                                          }}
+                                        ></div>
+                                        <button
+                                          onClick={() =>
+                                            handleIncludeDelete(index)
+                                          }
+                                          style={{
+                                            marginLeft: "auto",
+                                            border: "none",
+                                            background: "none",
+                                            cursor: "pointer",
+                                          }}
+                                        >
+                                          <FontAwesomeIcon icon={faTrashAlt} />
+                                        </button>
+                                      </div>
+                                      <div className="">
+                                        <ButtonGroup
+                                          aria-label="Basic example"
+                                          className="text-end"
+                                        >
+                                          <Button
+                                            style={{
+                                              background: "#09646D",
+                                              color: "#fff",
+                                              borderRadius: "10px 0 0 10px",
+                                              border: "none",
+                                            }}
+                                            className="text-end"
+                                          >
+                                            Include
+                                          </Button>
+                                          <Button
+                                            style={{
+                                              background: "#FFF",
+                                              color: "#B8B8B8",
+                                              border: "none",
+                                            }}
+                                          >
+                                            Exclude
+                                          </Button>
+                                        </ButtonGroup>
+                                      </div>
+                                    </div>
+                                  </>
+                                );
+                              })}
                             </>
-                          ))}
+                          ) : (
+                            <>
+                              {includeList.map((includeItem, index) => (
+                                <>
+                                  <div
+                                    className="border_bottom_2_width ps-4 py-1"
+                                    style={{
+                                      borderBottom: "1px solod #09646D",
+                                    }}
+                                  >
+                                    <div
+                                      key={index}
+                                      style={{
+                                        display: "flex",
+                                        alignItems: "center",
+                                      }}
+                                    >
+                                      <div
+                                        dangerouslySetInnerHTML={{
+                                          __html: includeItem,
+                                        }}
+                                      ></div>
+                                      <button
+                                        onClick={() =>
+                                          handleIncludeDelete(index)
+                                        }
+                                        style={{
+                                          marginLeft: "auto",
+                                          border: "none",
+                                          background: "none",
+                                          cursor: "pointer",
+                                        }}
+                                      >
+                                        <FontAwesomeIcon icon={faTrashAlt} />
+                                      </button>
+                                    </div>
+                                    <div className="">
+                                      <ButtonGroup
+                                        aria-label="Basic example"
+                                        className="text-end"
+                                      >
+                                        <Button
+                                          style={{
+                                            background: "#09646D",
+                                            color: "#fff",
+                                            borderRadius: "10px 0 0 10px",
+                                            border: "none",
+                                          }}
+                                          className="text-end"
+                                        >
+                                          Include
+                                        </Button>
+                                        <Button
+                                          style={{
+                                            background: "#FFF",
+                                            color: "#B8B8B8",
+                                            border: "none",
+                                          }}
+                                        >
+                                          Exclude
+                                        </Button>
+                                      </ButtonGroup>
+                                    </div>
+                                  </div>
+                                </>
+                              ))}
+                            </>
+                          )}
                         </div>
 
                         {/* exclude */}
                         <div className="border_bottom_2">
-                          {excludeList.map((excludeItem, index) => (
+                          {BidDataId ? (
                             <>
-                              <div
-                                className="border_bottom_2_width ps-4 py-1"
-                                style={{ borderBottom: "1px solod #09646D" }}
-                              >
-                                <div
-                                  key={index}
-                                  style={{
-                                    display: "flex",
-                                    alignItems: "center",
-                                  }}
-                                >
-                                  <div
-                                    dangerouslySetInnerHTML={{
-                                      __html: excludeItem,
-                                    }}
-                                  ></div>
-                                  <button
-                                    onClick={() => handleExcludeDelete(index)}
-                                    style={{
-                                      marginLeft: "auto",
-                                      border: "none",
-                                      background: "none",
-                                      cursor: "pointer",
-                                    }}
-                                  >
-                                    <FontAwesomeIcon icon={faTrashAlt} />
-                                  </button>
-                                </div>
-                                <div className="">
-                                  <ButtonGroup
-                                    aria-label="Basic example"
-                                    className="text-end"
-                                  >
-                                    <Button
+                              {details.map((ele, index) => {
+                                return (
+                                  <>
+                                    <div
+                                      className="border_bottom_2_width ps-4 py-1"
                                       style={{
-                                        background: "#FFF",
-                                        color: "#B8B8B8",
-                                        border: "none",
-                                      }}
-                                      className="text-end"
-                                    >
-                                      Include
-                                    </Button>
-                                    <Button
-                                      style={{
-                                        background: "red",
-                                        color: "#FFF",
-                                        border: "none",
-                                        borderRadius: "0 10px 10px 0",
+                                        borderBottom: "1px solod #09646D",
                                       }}
                                     >
-                                      Exclude
-                                    </Button>
-                                  </ButtonGroup>
-                                </div>
-                              </div>
+                                      <div
+                                        key={index}
+                                        style={{
+                                          display: "flex",
+                                          alignItems: "center",
+                                        }}
+                                      >
+                                        <div
+                                          dangerouslySetInnerHTML={{
+                                            __html: ele.exclude_services,
+                                          }}
+                                        ></div>
+                                        <button
+                                          onClick={() =>
+                                            handleIncludeDelete(index)
+                                          }
+                                          style={{
+                                            marginLeft: "auto",
+                                            border: "none",
+                                            background: "none",
+                                            cursor: "pointer",
+                                          }}
+                                        >
+                                          <FontAwesomeIcon icon={faTrashAlt} />
+                                        </button>
+                                      </div>
+                                      <div className="">
+                                        <ButtonGroup
+                                          aria-label="Basic example"
+                                          className="text-end"
+                                        >
+                                          <Button
+                                            style={{
+                                              background: "#FFF",
+                                              color: "#B8B8B8",
+                                              border: "none",
+                                            }}
+                                            className="text-end"
+                                          >
+                                            Include
+                                          </Button>
+                                          <Button
+                                            style={{
+                                              background: "red",
+                                              color: "#FFF",
+                                              border: "none",
+                                              borderRadius: "0 10px 10px 0",
+                                            }}
+                                          >
+                                            Exclude
+                                          </Button>
+                                        </ButtonGroup>
+                                      </div>
+                                    </div>
+                                  </>
+                                );
+                              })}
                             </>
-                          ))}
-                          {/* {excludeList.length == 0 ? (
-                              ""
-                            ) : (
-                              <div className="">
-                                <ButtonGroup
-                                  aria-label="Basic example"
-                                  className="text-end"
-                                >
-                                  <Button
+                          ) : (
+                            <>
+                              {excludeList.map((excludeItem, index) => (
+                                <>
+                                  <div
+                                    className="border_bottom_2_width ps-4 py-1"
                                     style={{
-                                      background: "#FFF",
-                                      color: "#B8B8B8",
-                                      border: "none",
-                                    }}
-                                    className="text-end"
-                                  >
-                                    Include
-                                  </Button>
-                                  <Button
-                                    style={{
-                                      background: "red",
-                                      color: "#B8B8B8",
-                                      border: "none",
-                                      borderRadius: "0 10px 10px 0",
+                                      borderBottom: "1px solod #09646D",
                                     }}
                                   >
-                                    Exclude
-                                  </Button>
-                                </ButtonGroup>
-                              </div>
-                            )} */}
+                                    <div
+                                      key={index}
+                                      style={{
+                                        display: "flex",
+                                        alignItems: "center",
+                                      }}
+                                    >
+                                      <div
+                                        dangerouslySetInnerHTML={{
+                                          __html: excludeItem,
+                                        }}
+                                      ></div>
+                                      <button
+                                        onClick={() =>
+                                          handleExcludeDelete(index)
+                                        }
+                                        style={{
+                                          marginLeft: "auto",
+                                          border: "none",
+                                          background: "none",
+                                          cursor: "pointer",
+                                        }}
+                                      >
+                                        <FontAwesomeIcon icon={faTrashAlt} />
+                                      </button>
+                                    </div>
+                                    <div className="">
+                                      <ButtonGroup
+                                        aria-label="Basic example"
+                                        className="text-end"
+                                      >
+                                        <Button
+                                          style={{
+                                            background: "#FFF",
+                                            color: "#B8B8B8",
+                                            border: "none",
+                                          }}
+                                          className="text-end"
+                                        >
+                                          Include
+                                        </Button>
+                                        <Button
+                                          style={{
+                                            background: "red",
+                                            color: "#FFF",
+                                            border: "none",
+                                            borderRadius: "0 10px 10px 0",
+                                          }}
+                                        >
+                                          Exclude
+                                        </Button>
+                                      </ButtonGroup>
+                                    </div>
+                                  </div>
+                                </>
+                              ))}
+                            </>
+                          )}
                         </div>
                       </div>
 
@@ -1334,7 +1629,7 @@ function Submit_package_form(props) {
                                   backgroundColor: "#155E75",
                                   padding: "8px 40px",
                                 }}
-                                // onClick={() => setValue(3)}
+                                onClick={LastSubmit}
                               >
                                 Submit
                               </Button>

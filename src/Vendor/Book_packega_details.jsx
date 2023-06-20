@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   faArrowLeft,
   faBell,
@@ -22,10 +22,36 @@ import Book_packega2 from "./Book_packega2";
 import My_pannel from "./My_pannel";
 import Header from "../Project/Header";
 import Header2 from "./Header2";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 function Book_packega_details(props) {
   const navigate = useNavigate();
+
+  const [details, setDetails] = useState([]);
+
+  const { id } = useParams();
+
+  const DisplayBookPackageDetails = async () => {
+    const token = localStorage.getItem("vendorToken");
+    const res = await fetch(
+      `http://54.89.214.143:3000/bookpackage/bookpackagedetail?_id=${id}`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: token,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    const data = await res.json();
+    console.log(data.data);
+    setDetails(data.data);
+  };
+
+  useEffect(() => {
+    DisplayBookPackageDetails();
+  }, []);
+
   return (
     <>
       {/* <section>

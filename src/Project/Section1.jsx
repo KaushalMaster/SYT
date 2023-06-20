@@ -26,7 +26,7 @@ function Section1(props) {
   const [safetyInfo, setSafetyInfo] = useState([]);
 
   const HomeData = async () => {
-    const res = await fetch("https://start-your-tour.onrender.com/home", {
+    const res = await fetch("http://54.89.214.143:3000/home", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
