@@ -144,14 +144,11 @@ function Submit_package_form(props) {
 
   // const [days, setDays] = useState([]);
 
-  const [pricePerPerson, setPricePerPerson] = useState({
-    budget_per_person: "",
-  });
+  const [budget_per_person, setBudget_per_person] = useState({});
   const txtPrice = (e) => {
-    const { name, value } = e.target;
-    setPricePerPerson({ ...pricePerPerson, [name]: value });
+    setBudget_per_person(e.target.value);
   };
-  console.log(pricePerPerson);
+  console.log(budget_per_person);
 
   const [hotel, setHotel] = useState([]);
   const txtHotel = (e) => {
@@ -221,6 +218,7 @@ function Submit_package_form(props) {
   ];
 
   const [selectedHotelTypes, setSelectedHotelTypes] = useState([]);
+  console.log(selectedHotelTypes);
   const [selectedMealTypes, setSelectedMealTypes] = useState([]);
   const [selectedMeals, setSelectedMeals] = useState([]);
   const [selectedTravelBy, setSelectedTravelBy] = useState([]);
@@ -250,7 +248,7 @@ function Submit_package_form(props) {
     const token = localStorage.getItem("vendorToken");
     const BidId = sessionStorage.getItem("BidId");
     const res = await fetch(
-      `http://54.89.214.143:3000/itinerary?bid_id=${BidId}`,
+      `https://start-your-tour.onrender.com/itinerary?bid_id=${BidDataId}`,
       {
         method: "GET",
         headers: {
@@ -260,7 +258,7 @@ function Submit_package_form(props) {
       }
     );
     const data = await res.json();
-    console.log(data.data[0]);
+    console.log(data);
     setIt(data.data);
   };
 
@@ -270,7 +268,7 @@ function Submit_package_form(props) {
   const Requirement = async () => {
     const token = localStorage.getItem("vendorToken");
     const res = await fetch(
-      `http://54.89.214.143:3000/customrequirements/details?_id=${id}`,
+      `https://start-your-tour.onrender.com/customrequirements/details?_id=${id}`,
       {
         method: "GET",
         headers: {
@@ -282,7 +280,7 @@ function Submit_package_form(props) {
     const data = await res.json();
     console.log(data.data);
     setDisplayData(data.data);
-    setPricePerPerson(data.data[0].budget_per_person);
+    setBudget_per_person(data.data[0].budget_per_person);
     // setDays(data.data[0].total_days);
   };
 
@@ -291,13 +289,16 @@ function Submit_package_form(props) {
 
   const getBidPackage = async () => {
     const token = localStorage.getItem("vendorToken");
-    const res = await fetch("http://54.89.214.143:3000/bidpackage/agencybid", {
-      method: "GET",
-      headers: {
-        Authorization: token,
-        "Content-Type": "application/json",
-      },
-    });
+    const res = await fetch(
+      "https://start-your-tour.onrender.com/bidpackage/agencybid",
+      {
+        method: "GET",
+        headers: {
+          Authorization: token,
+          "Content-Type": "application/json",
+        },
+      }
+    );
     const data = await res.json();
     console.log(data.data);
 
@@ -337,10 +338,9 @@ function Submit_package_form(props) {
       total_amount,
     } = detailsData;
 
-    const { budget_per_person } = pricePerPerson;
     const token = localStorage.getItem("vendorToken");
 
-    const res = await fetch(`http://54.89.214.143:3000/bidpackage`, {
+    const res = await fetch(`https://start-your-tour.onrender.com/bidpackage`, {
       method: "POST",
       headers: {
         Authorization: token,
@@ -358,7 +358,7 @@ function Submit_package_form(props) {
         meal_types: selectedMealTypes.map((option) => option.value).join(", "),
         meal_required: selectedMeals.map((option) => option.value).join(", "),
         other_Services: other_Services,
-        price_per_person: budget_per_person || Number(price_per_person),
+        price_per_person: budget_per_person,
         total_days: Number(total_days),
         personal_care,
         travel_by: selectedTravelBy.map((option) => option.value).join(", "),
@@ -369,7 +369,7 @@ function Submit_package_form(props) {
       }),
     });
     const data = await res.json();
-    console.log(data.data);
+    console.log(data);
     setBidId(data.data._id);
     sessionStorage.setItem("BidId", data.data._id);
   };
@@ -391,10 +391,8 @@ function Submit_package_form(props) {
       total_amount,
     } = detailsData;
 
-    const { budget_per_person } = pricePerPerson;
-
     const res = await fetch(
-      `http://54.89.214.143:3000//bidpackage?bid_id=${id}`,
+      `https://start-your-tour.onrender.com/bidpackage?bid_id=${BidDataId}`,
       {
         method: "PUT",
         headers: {
@@ -426,6 +424,24 @@ function Submit_package_form(props) {
     console.log(data);
   };
 
+  const [hotalData, setHotalData] = useState({
+    hotel_name: "",
+    hotel_address: "",
+    hotel_photo: "",
+    hotel_type: "",
+    city: "",
+    state: "",
+    hotel_description: "",
+    other: "",
+  });
+
+  const hotelTxt = (e) => {
+    const { name, value } = e.target;
+    setHotalData({ ...hotalData, [name]: value });
+  };
+
+  console.log(hotalData);
+
   useEffect(() => {
     if (BidDataId) {
       setDetails([BidData]);
@@ -439,7 +455,7 @@ function Submit_package_form(props) {
     Requirement();
     // DisplayBid();
     getBidPackage();
-  }, [id]);
+  });
 
   // const [editorCount, setEditorCount] = useState(1);
 
@@ -680,17 +696,31 @@ function Submit_package_form(props) {
                                 <div className="row col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 py-1 ms-1">
                                   <div className="col-xl-6 py-2">
                                     <p className="mb-2">Hotel Type</p>
-                                    <input
-                                      type="text"
-                                      name="hotel_type"
-                                      value={
-                                        ele.hotel_type
-                                          ? ele.hotel_type
-                                              .map((e) => e)
-                                              .join(", ")
-                                          : ""
-                                      }
-                                    />
+                                    {BidDataId ? (
+                                      <input
+                                        type="text"
+                                        name="hotel_type"
+                                        value={
+                                          ele.hotel_types
+                                            ? ele.hotel_types
+                                                .map((e) => e)
+                                                .join(", ")
+                                            : ""
+                                        }
+                                      />
+                                    ) : (
+                                      <input
+                                        type="text"
+                                        name="hotel_type"
+                                        value={
+                                          ele.hotel_type
+                                            ? ele.hotel_type
+                                                .map((e) => e)
+                                                .join(", ")
+                                            : ""
+                                        }
+                                      />
+                                    )}
                                   </div>
                                   <div className="col-xl-6 mt-xl-4">
                                     <p className="mb-2 mt-3"></p>
@@ -872,7 +902,8 @@ function Submit_package_form(props) {
                                       type="text"
                                       name="budget_per_person"
                                       id=""
-                                      onChange={txtData}
+                                      onChange={txtPrice}
+                                      value={budget_per_person}
                                     />
                                   )}
                                   {/* <input
@@ -889,7 +920,7 @@ function Submit_package_form(props) {
                                     name="total_amount"
                                     id=""
                                     value={
-                                      pricePerPerson.budget_per_person *
+                                      budget_per_person *
                                       (ele.total_adult +
                                         ele.Infant +
                                         ele.Infant)
@@ -1318,116 +1349,124 @@ function Submit_package_form(props) {
                                     Day wise Itinerary plan
                                   </span>
                                 </div>
-                                {details.map((ele) => {
+                                {details &&
+                                  details.map((ele) => {
+                                    return (
+                                      <>
+                                        <div className="col-6 d-flex align-items-center justify-content-end">
+                                          <p className="cmnclr cmnp">
+                                            Add days
+                                          </p>
+                                          <NavLink
+                                            to={`/vendor/add-itineries/${id}`}
+                                          >
+                                            <a>
+                                              <FontAwesomeIcon
+                                                icon={faPlus}
+                                                className="cmnbkg p-2 ms-2"
+                                                style={{ cursor: "pointer" }}
+                                              />
+                                            </a>
+                                          </NavLink>
+                                        </div>
+                                      </>
+                                    );
+                                  })}
+                              </div>
+                            </div>
+                            <div className="row d-flex justify-content-center">
+                              {it &&
+                                it.map((ele) => {
                                   return (
                                     <>
-                                      <div className="col-6 d-flex align-items-center justify-content-end">
-                                        <p className="cmnclr cmnp">Add days</p>
-                                        <NavLink
-                                          to={`/vendor/add-itineries/${ele._id}`}
-                                        >
-                                          <a>
-                                            <FontAwesomeIcon
-                                              icon={faPlus}
-                                              className="cmnbkg p-2 ms-2"
-                                              style={{ cursor: "pointer" }}
-                                            />
-                                          </a>
-                                        </NavLink>
+                                      <div
+                                        className="col-5 me-5"
+                                        style={{
+                                          border: "1px solid grey",
+                                          borderRadius: "15px",
+                                        }}
+                                      >
+                                        <div className="d-flex justify-content-between">
+                                          <p
+                                            style={{
+                                              backgroundColor: "#09646d",
+                                              color: "white",
+                                              padding: "5px 10px",
+                                              display: "inline-block",
+                                            }}
+                                          >
+                                            Day {ele.day}
+                                          </p>
+                                          <p
+                                            style={{
+                                              backgroundColor: "#09646d",
+                                              color: "white",
+                                              padding: "1px 5px",
+                                              textDecoration: "none",
+                                              cursor: "pointer",
+                                            }}
+                                            onClick={() => {
+                                              navigate(
+                                                `/vendor/add-itineriesEdit/${ele._id}/${id}`
+                                              );
+                                              setDayNumber(ele.day);
+                                            }}
+                                          >
+                                            EDIT
+                                          </p>
+                                        </div>
+                                        <div className="p-3">
+                                          <div>
+                                            <div className="mb-2">
+                                              <label htmlFor="text">
+                                                Add Location
+                                              </label>
+                                              <input
+                                                type="text"
+                                                name=""
+                                                id=""
+                                                value={ele.title}
+                                              />
+                                            </div>
+                                            <div className="mb-2">
+                                              <label htmlFor="text">
+                                                Add Photo
+                                              </label>
+                                              <input
+                                                type="file"
+                                                name=""
+                                                id=""
+                                              />
+                                            </div>
+                                            <div className="mb-2">
+                                              <label htmlFor="text">
+                                                Add Hotel Name
+                                              </label>
+                                              <input
+                                                type="text"
+                                                name=""
+                                                id=""
+                                                value={ele.hotel_name}
+                                              />
+                                            </div>
+                                            <div className="mb-2">
+                                              <a>Description</a>
+                                              <textarea
+                                                name=""
+                                                id=""
+                                                value={ele.activity}
+                                                style={{
+                                                  width: "100%",
+                                                  height: "150px",
+                                                }}
+                                              ></textarea>
+                                            </div>
+                                          </div>
+                                        </div>
                                       </div>
                                     </>
                                   );
                                 })}
-                              </div>
-                            </div>
-                            <div className="row d-flex justify-content-center">
-                              {it.map((ele) => {
-                                return (
-                                  <>
-                                    <div
-                                      className="col-5 me-5"
-                                      style={{
-                                        border: "1px solid grey",
-                                        borderRadius: "15px",
-                                      }}
-                                    >
-                                      <div className="d-flex justify-content-between">
-                                        <p
-                                          style={{
-                                            backgroundColor: "#09646d",
-                                            color: "white",
-                                            padding: "5px 10px",
-                                            display: "inline-block",
-                                          }}
-                                        >
-                                          Day {ele.day}
-                                        </p>
-                                        <p
-                                          style={{
-                                            backgroundColor: "#09646d",
-                                            color: "white",
-                                            padding: "1px 5px",
-                                            textDecoration: "none",
-                                            cursor: "pointer",
-                                          }}
-                                          onClick={() => {
-                                            navigate(
-                                              `/vendor/add-itineriesEdit/${ele.bid_id}`
-                                            );
-                                            setDayNumber(ele.day);
-                                          }}
-                                        >
-                                          EDIT
-                                        </p>
-                                      </div>
-                                      <div className="p-3">
-                                        <div>
-                                          <div className="mb-2">
-                                            <label htmlFor="text">
-                                              Add Location
-                                            </label>
-                                            <input
-                                              type="text"
-                                              name=""
-                                              id=""
-                                              value={ele.title}
-                                            />
-                                          </div>
-                                          <div className="mb-2">
-                                            <label htmlFor="text">
-                                              Add Photo
-                                            </label>
-                                            <input type="file" name="" id="" />
-                                          </div>
-                                          <div className="mb-2">
-                                            <label htmlFor="text">
-                                              Add Hotel Name
-                                            </label>
-                                            <input
-                                              type="text"
-                                              name=""
-                                              id=""
-                                              value={ele.hotel_name}
-                                            />
-                                          </div>
-                                          <div className="mb-2">
-                                            <a>Description</a>
-                                            <textarea
-                                              name=""
-                                              id=""
-                                              value={ele.activity}
-                                              style={{
-                                                width: "100%",
-                                                height: "150px",
-                                              }}
-                                            ></textarea>
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </>
-                                );
-                              })}
                             </div>
 
                             <div className="col-12">
@@ -1494,14 +1533,12 @@ function Submit_package_form(props) {
                                   </a>
                                 </div>
                               </div>
-                              {details.map((ele) => {
-                                return (
-                                  <>
-                                    <div
-                                      className="col-lg-6 col-md-6 col-sm-6"
-                                      style={{ margin: "auto" }}
-                                    >
-                                      <div className="inner_green_border p-2">
+
+                              <div
+                                className="col-12"
+                                style={{ margin: "auto" }}
+                              >
+                                {/* <div className="inner_green_border p-2">
                                         <span className="cmnp p-2 cmnclr">
                                           DAY 1
                                         </span>
@@ -1515,99 +1552,119 @@ function Submit_package_form(props) {
                                             className="p-1 cmnclr"
                                           />
                                         </div>
-                                      </div>
-                                      <div className="inner_green_border py-3 my-3 px-4">
-                                        <span className="itinerary_header text-20 cmnclr h-100 d-flex justify-content-left text-start align-items-center">
-                                          Hotel & Food
-                                        </span>
-                                        <div className="margin_left_right mt-3">
-                                          <p className="mb-1" htmlFor="">
-                                            Hotel name
-                                          </p>
-                                          <input
-                                            type="text"
-                                            name=""
-                                            id=""
-                                            className="mb-2"
-                                            style={{ width: "100%" }}
-                                          />
-                                          <br />
-                                          <p className="mb-1" htmlFor="">
-                                            Hotel address
-                                          </p>
-                                          <input
-                                            type="text"
-                                            name=""
-                                            id=""
-                                            className="mb-2"
-                                            style={{ width: "100%" }}
-                                          />
-                                          <br />
-                                          <p className="mb-1" htmlFor="">
-                                            Hotel photo
-                                          </p>
-                                          <input
-                                            type="file"
-                                            name=""
-                                            id=""
-                                            className="mb-2"
-                                            style={{ width: "100%" }}
-                                          />
-                                          <br />
-                                          <p className="mb-1" htmlFor="">
-                                            Hotel city
-                                          </p>
-                                          <input
-                                            type="text"
-                                            name=""
-                                            id=""
-                                            className="mb-2"
-                                            style={{ width: "100%" }}
-                                          />
-                                          <br />
-                                          <p className="mb-1" htmlFor="">
-                                            Hotel state
-                                          </p>
-                                          <input
-                                            type="text"
-                                            name=""
-                                            id=""
-                                            className="mb-2"
-                                            style={{ width: "100%" }}
-                                          />
-                                          <br />
-                                          <div className="mb-2">
-                                            <p className="mb-1" htmlFor="">
-                                              Hotel description
-                                            </p>
-                                            <textarea
-                                              name=""
-                                              id=""
-                                              style={{
-                                                width: "100%",
-                                                height: "150px",
-                                              }}
-                                            ></textarea>
-                                          </div>
-                                          <div>
-                                            <p className="mb-1" htmlFor="">
-                                              Hotel highlights
-                                            </p>
-                                            <textarea
-                                              name=""
-                                              id=""
-                                              style={{
-                                                width: "100%",
-                                                height: "150px",
-                                              }}
-                                            ></textarea>
-                                          </div>
-                                        </div>
-                                      </div>
+                                      </div> */}
+                                <div className="inner_green_border py-3 my-3 px-4">
+                                  <div className="row">
+                                    <div className="col-md-6 col-sm-12 col-12 margin_left_right">
+                                      <p className="mb-1" htmlFor="">
+                                        Hotel name
+                                      </p>
+                                      <input
+                                        type="text"
+                                        name="hotel_name"
+                                        id=""
+                                        className="mb-2"
+                                        style={{ width: "100%" }}
+                                        onChange={hotelTxt}
+                                      />
                                     </div>
-                                  </>
-                                );
-                              })}
+                                    <div className="col-md-6 col-sm-12 col-12 margin_left_right">
+                                      <p className="mb-1" htmlFor="">
+                                        Hotel address
+                                      </p>
+                                      <input
+                                        type="text"
+                                        name="hotel_address"
+                                        id=""
+                                        className="mb-2"
+                                        style={{ width: "100%" }}
+                                        onChange={hotelTxt}
+                                      />
+                                    </div>
+                                    <div className="col-md-6 col-sm-12 col-12 margin_left_right">
+                                      <p className="mb-1" htmlFor="">
+                                        Hotel photo
+                                      </p>
+                                      <input
+                                        type="file"
+                                        name="hotel_photo"
+                                        id=""
+                                        className="mb-2"
+                                        style={{ width: "100%" }}
+                                        onChange={hotelTxt}
+                                      />
+                                    </div>
+                                    <div className="col-md-6 col-sm-12 col-12 margin_left_right">
+                                      <p className="mb-1" htmlFor="">
+                                        Hotel Type
+                                      </p>
+                                      <input
+                                        type="text"
+                                        name="hotel_type"
+                                        id=""
+                                        className="mb-2"
+                                        style={{ width: "100%" }}
+                                        onChange={hotelTxt}
+                                      />
+                                    </div>
+                                    <div className="col-md-6 col-sm-12 col-12 margin_left_right">
+                                      {" "}
+                                      <p className="mb-1" htmlFor="">
+                                        Hotel city
+                                      </p>
+                                      <input
+                                        type="text"
+                                        name="city"
+                                        id=""
+                                        className="mb-2"
+                                        style={{ width: "100%" }}
+                                        onChange={hotelTxt}
+                                      />
+                                    </div>
+                                    <div className="col-md-6 col-sm-12 col-12 margin_left_right">
+                                      <p className="mb-1" htmlFor="">
+                                        Hotel state
+                                      </p>
+                                      <input
+                                        type="text"
+                                        name="state"
+                                        id=""
+                                        className="mb-2"
+                                        style={{ width: "100%" }}
+                                        onChange={hotelTxt}
+                                      />
+                                    </div>
+                                    <div className="col-md-6 col-sm-12 col-12 margin_left_right">
+                                      <p className="mb-1" htmlFor="">
+                                        Hotel description
+                                      </p>
+                                      <textarea
+                                        name="hotel_description"
+                                        id=""
+                                        onChange={hotelTxt}
+                                        style={{
+                                          width: "100%",
+                                          height: "150px",
+                                        }}
+                                      ></textarea>
+                                    </div>
+                                    <div className="col-md-6 col-sm-12 col-12 margin_left_right">
+                                      <p className="mb-1" htmlFor="">
+                                        Other
+                                      </p>
+                                      <textarea
+                                        name="other"
+                                        id=""
+                                        onChange={hotelTxt}
+                                        style={{
+                                          width: "100%",
+                                          height: "150px",
+                                        }}
+                                      ></textarea>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
                             </Row>
                             <div className="py-2 pt-3 text-end">
                               <Button

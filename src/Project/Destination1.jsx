@@ -23,7 +23,7 @@ function Destination1(props) {
 
   const destinationCategory = async () => {
     const res = await fetch(
-      `http://54.89.214.143:3000/destination/getDestinations?category_id=${id}`,
+      `https://start-your-tour.onrender.com/destination/getDestinations?category_id=${id}`,
       {
         method: "GET",
         headers: {
@@ -489,7 +489,7 @@ function Destination1(props) {
                               <div class="rating-top">
                                 <div class="Rating w-100">
                                   <img
-                                    src={ele.Place_to_visits || "/bkg-1-1.png"}
+                                    src={ele.Place_to_visit}
                                     alt=""
                                     class="img-fluid w-100"
                                   />

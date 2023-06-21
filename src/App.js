@@ -115,7 +115,7 @@ function App() {
               <ids.Provider value={{ bidId, setBidId }}>
                 <hotelName.Provider value={{ hotel, setHotel }}>
                   <Itineries.Provider value={{ tineriesId, setItineriesId }}>
-                    <Routes>S
+                    <Routes>
                       <Route path="/" element={<Index />} />
                       <Route path="/user/registration" element={<Signup />} />
                       <Route path="/blog" element={<Blog />} />
@@ -194,7 +194,7 @@ function App() {
                         element={<Book_packega_details />}
                       />
                       <Route
-                        path="/vendor/add-itineries/:id"
+                        path="/vendor/add-itineries/:id/:BidId"
                         element={<AddItineries />}
                       />
                       <Route

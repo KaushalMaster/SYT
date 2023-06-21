@@ -9,6 +9,9 @@ import { useNavigate } from "react-router-dom";
 function Signup(props) {
   const navigate = useNavigate();
 
+  const [passwordVisible, setPasswordVisible] = useState(false);
+  const [password, setPassword] = useState("");
+
   const [nameError, setNameError] = useState("");
   const [phoneError, setPhoneError] = useState("");
   const [stateError, setStateError] = useState("");
@@ -24,7 +27,6 @@ function Signup(props) {
     phone: "",
     state: "",
     email_address: "",
-    password: "",
     city: "",
     gender: "",
   });
@@ -39,8 +41,7 @@ function Signup(props) {
   const crtAccout = async (e) => {
     e.preventDefault();
 
-    const { name, phone, state, email_address, password, city, gender } =
-      registerData;
+    const { name, phone, state, email_address, city, gender } = registerData;
 
     if (
       name.length == 0 ||
@@ -65,7 +66,7 @@ function Signup(props) {
       return;
     }
 
-    const res = await fetch("http://54.89.214.143:3000/user", {
+    const res = await fetch("https://start-your-tour.onrender.com/user", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -87,9 +88,6 @@ function Signup(props) {
       navigate("/");
     }
   };
-
-  const [passwordVisible, setPasswordVisible] = useState(false);
-  const [password, setPassword] = useState("");
 
   const handlePasswordChange = (event) => {
     const value = event.target.value;
@@ -266,7 +264,7 @@ function Signup(props) {
                             onClick={togglePasswordVisibility}
                           />
                         </div>
-                        {registerData.password.length == 0 ? (
+                        {password.length == 0 ? (
                           <span style={{ color: "red", fontSize: "12px" }}>
                             {passwordError}
                           </span>

@@ -98,12 +98,12 @@ function Header2() {
                 <span className="d-xl-inline-block d-lg-inline-block d-md-none d-sm-none d-none">
                   Custom Requirement
                 </span>
-                <a
-                  href="/package"
+                <NavLink
+                  href="/display/custom"
                   className="p-2 d-xl-none d-lg-none d-md-block d-sm-block d-block header_2_anchor"
                 >
                   PACKAGE
-                </a>
+                </NavLink>
               </Nav.Link>
               <Nav.Link href="" className="text-dark">
                 <FontAwesomeIcon

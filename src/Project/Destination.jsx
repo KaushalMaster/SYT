@@ -26,12 +26,15 @@ function Destination(props) {
   const handleShow = () => setShow(true);
 
   const destinationDetail = async () => {
-    const res = await fetch(`http://54.89.214.143:3000/placetovisit/${id}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    const res = await fetch(
+      `https://start-your-tour.onrender.com/placetovisit/${id}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
     const data = await res.json();
     console.log(data.data);
     setDestination(data.data);
@@ -39,7 +42,7 @@ function Destination(props) {
 
   const packageDetail = async () => {
     const res = await fetch(
-      `https://syt-hy0y.onrender.com/destination/getDestinationData?destination_id=${id}`,
+      `https://start-your-tour.onrender.com//destination/getDestinationData?destination_id=${id}`,
       {
         method: "GET",
         headers: {
@@ -118,11 +121,7 @@ function Destination(props) {
                   style={{ cursor: "pointer" }}
                   onClick={handleShow}
                 >
-                  <img
-                    src={"/bkg3.png" || ele.photo}
-                    alt=""
-                    class="img-flud w-100"
-                  />
+                  <img src={ele.photo} alt="" class="img-flud w-100" />
                   <h5 class="py-2 text-center">{ele.name}</h5>
                 </div>
               </>
@@ -591,11 +590,7 @@ function Destination(props) {
                           >
                             <div className="rating-top jiji mb-5">
                               <div class="Rating">
-                                <img
-                                  src="/bkg-1-1.png"
-                                  alt=""
-                                  class="img-fluid"
-                                />
+                                <img src={ele.Place} alt="" class="img-fluid" />
                                 <span>
                                   <FontAwesomeIcon
                                     icon={faStar}

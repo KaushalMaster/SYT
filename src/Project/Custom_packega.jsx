@@ -40,7 +40,7 @@ function Custom_packega(props) {
 
   const DetailsBid = async () => {
     const res = await fetch(
-      `http://54.89.214.143:3000/bidpackage/biddetails?_id=${id}`,
+      `https://start-your-tour.onrender.com/bidpackage/biddetails?_id=${id}`,
       {
         method: "GET",
         headers: {

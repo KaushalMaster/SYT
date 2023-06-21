@@ -29,7 +29,7 @@ function Requirements_details(props) {
   const Requirement = async () => {
     const token = localStorage.getItem("vendorToken");
     const res = await fetch(
-      `http://54.89.214.143:3000/customrequirements/details?_id=${id}`,
+      `https://start-your-tour.onrender.com/customrequirements/details?_id=${id}`,
       {
         method: "GET",
         headers: {
@@ -48,13 +48,16 @@ function Requirements_details(props) {
 
   const getBidPackage = async () => {
     const token = localStorage.getItem("vendorToken");
-    const res = await fetch("http://54.89.214.143:3000/bidpackage/agencybid", {
-      method: "GET",
-      headers: {
-        Authorization: token,
-        "Content-Type": "application/json",
-      },
-    });
+    const res = await fetch(
+      "https://start-your-tour.onrender.com/bidpackage/agencybid",
+      {
+        method: "GET",
+        headers: {
+          Authorization: token,
+          "Content-Type": "application/json",
+        },
+      }
+    );
     const data = await res.json();
     console.log(data);
 

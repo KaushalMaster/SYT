@@ -13,8 +13,38 @@ import { ids } from "../App";
 const AddItineries = () => {
   const navigate = useNavigate();
   const { tineriesId, setItineriesId } = useContext(Itineries);
-  const { bidId, setBidId } = useContext(ids);
-  console.log(bidId);
+  const [BidData, setBidData] = useState([]);
+  const [BidDataId, setBidDataId] = useState();
+
+  const { id } = useParams();
+
+  const getBidPackage = async () => {
+    const token = localStorage.getItem("vendorToken");
+    const res = await fetch(
+      "https://start-your-tour.onrender.com/bidpackage/agencybid",
+      {
+        method: "GET",
+        headers: {
+          Authorization: token,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    const data = await res.json();
+    console.log(data.data);
+
+    const matchingBidPackage = data.data.find(
+      (bidPackage) => bidPackage.custom_requirement_id === id
+    );
+
+    if (matchingBidPackage) {
+      console.log(matchingBidPackage);
+      setBidData(matchingBidPackage);
+      setBidDataId(matchingBidPackage._id);
+    } else {
+      console.log("No matching bid package found.");
+    }
+  };
 
   const [itineriesData, setItineriesData] = useState({
     day: "",
@@ -26,32 +56,11 @@ const AddItineries = () => {
   // const [bidId, setBidId] = useState();
   // console.log(bidId);
 
-  const { id } = useParams();
-
   const txt = (e) => {
     const { name, value } = e.target;
     setItineriesData({ ...itineriesData, [name]: value });
   };
   console.log(itineriesData);
-
-  const DisplayBid = async () => {
-    const token = localStorage.getItem("vendorToken");
-    const res = await fetch(
-      `http://54.89.214.143:3000/bidpackage/displaybidpackages?custom_requirement_id=${id}`,
-      {
-        method: "GET",
-        headers: {
-          Authorization: token,
-          "Content-Type": "application/json",
-        },
-      }
-    );
-    const data = await res.json();
-    // setBidId(data.data[0]._id);
-    console.log(data);
-  };
-
-  const BidId = sessionStorage.getItem("BidId");
 
   const AddItineriesData = async (e) => {
     e.preventDefault();
@@ -68,21 +77,24 @@ const AddItineries = () => {
     // formData.append("hotel_name", hotel_name);
     // formData.append("activity", activity);
 
-    const res = await fetch("http://54.89.214.143:3000/itinerary/addBid", {
-      method: "POST",
-      headers: {
-        Authorization: token,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        bid_id: BidId,
-        day,
-        title,
-        photo,
-        hotel_name,
-        activity,
-      }),
-    });
+    const res = await fetch(
+      "https://start-your-tour.onrender.com/itinerary/addBid",
+      {
+        method: "POST",
+        headers: {
+          Authorization: token,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          bid_id: BidDataId,
+          day,
+          title,
+          photo,
+          hotel_name,
+          activity,
+        }),
+      }
+    );
     const data = await res.json();
     console.log(data);
 
@@ -92,8 +104,8 @@ const AddItineries = () => {
   };
 
   useEffect(() => {
-    DisplayBid();
-  }, []);
+    getBidPackage();
+  }, [id]);
 
   return (
     <>

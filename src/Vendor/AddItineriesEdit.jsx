@@ -12,6 +12,8 @@ import { useContext } from "react";
 
 const AddItineriesEdit = () => {
   const navigate = useNavigate();
+  const { id, BidId } = useParams();
+  console.log(BidId);
 
   const { dayNumber, setDayNumber } = useContext(day);
   console.log(dayNumber);
@@ -23,12 +25,6 @@ const AddItineriesEdit = () => {
     hotel_name: "",
     activity: "",
   });
-  const [bidId, setBidId] = useState({});
-  console.log(bidId);
-
-  const { id } = useParams();
-  console.log(id);
-
   const txt = (e) => {
     const { name, value } = e.target;
     setItineriesData({ ...itineriesData, [name]: value });
@@ -36,9 +32,8 @@ const AddItineriesEdit = () => {
   console.log(itineriesData);
 
   const getItinerary = async () => {
-    const BidId = sessionStorage.getItem("BidId");
     const res = await fetch(
-      `http://54.89.214.143:3000/itinerary?bid_id=${BidId}`,
+      `https://start-your-tour.onrender.com/itinerary?bid_id=${BidId}`,
       {
         method: "GET",
         headers: {
@@ -48,7 +43,7 @@ const AddItineriesEdit = () => {
       }
     );
     const data = await res.json();
-    console.log(data.data[0]);
+    console.log(data.data);
     setItineriesData(data.data[0]);
   };
   const AddItineriesDataEdit = async (e) => {
@@ -57,7 +52,7 @@ const AddItineriesEdit = () => {
     const BidId = sessionStorage.getItem("BidId");
     const { day, title, photo, activity, hotel_name } = itineriesData;
     const res = await fetch(
-      `http://54.89.214.143:3000/itinerary/biditinerary?bid_id=${BidId}&day=1`,
+      `https://start-your-tour.onrender.com/itinerary/biditinerary?bid_id=${BidId}&day=1`,
       {
         method: "PUT",
         headers: {

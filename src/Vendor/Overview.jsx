@@ -41,26 +41,29 @@ function Overview(props) {
       state,
     } = vendorRegistration;
 
-    const res = await fetch("http://54.89.214.143:3000/user/agency", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        full_name,
-        mobile_number,
-        email_address,
-        alternate_phone,
-        resident_address,
-        alternate_address,
-        pincode,
-        skypeid,
-        country,
-        city,
-        state,
-        role: "agency",
-      }),
-    });
+    const res = await fetch(
+      "https://start-your-tour.onrender.com/user/agency",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          full_name,
+          mobile_number,
+          email_address,
+          alternate_phone,
+          resident_address,
+          alternate_address,
+          pincode,
+          skypeid,
+          country,
+          city,
+          state,
+          role: "agency",
+        }),
+      }
+    );
     const data = await res.json();
     console.log(data);
   };

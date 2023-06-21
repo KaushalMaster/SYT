@@ -34,17 +34,20 @@ function Logi_page(props) {
       setPasswordError("Enter Your Password");
       return;
     } else {
-      const res = await fetch("http://54.89.214.143:3000/user/loginAll", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          phone: Number(phone),
-          password,
-          role: "agency",
-        }),
-      });
+      const res = await fetch(
+        "https://start-your-tour.onrender.com/user/loginAll",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            phone: Number(phone),
+            password,
+            role: "agency",
+          }),
+        }
+      );
       const data = await res.json();
       console.log(data);
 

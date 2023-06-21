@@ -128,12 +128,15 @@ function Packega_details(props) {
   const [categoty, setCategoty] = useState([]);
 
   const getCategoty = async () => {
-    const res = await fetch("http://54.89.214.143:3000/destinationcategory", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    const res = await fetch(
+      "https://start-your-tour.onrender.com/destinationcategory",
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
     const data = await res.json();
     console.log(data.data);
     setCategoty(data.data);
@@ -232,34 +235,37 @@ function Packega_details(props) {
       meal_type,
     } = details;
 
-    const res = await fetch("http://54.89.214.143:3000/customrequirements", {
-      method: "POST",
-      headers: {
-        Authorization: token,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        departure,
-        destination,
-        category: selectedValues,
-        total_adult,
-        total_child,
-        Infant,
-        travel_by: selectedValuesTravel,
-        personal_care,
-        start_date: "12:02:2022",
-        end_date: "20:02:2022",
-        hotel_type: selectedValuesHotel,
-        meal_require: selectedValuesMeal,
-        meal_type,
-        additional_requirement,
-        full_name,
-        email_address,
-        mobile_no: Number(mobile_no),
-        city,
-        budget_per_person,
-      }),
-    });
+    const res = await fetch(
+      "https://start-your-tour.onrender.com/customrequirements",
+      {
+        method: "POST",
+        headers: {
+          Authorization: token,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          departure,
+          destination,
+          category: selectedValues,
+          total_adult,
+          total_child,
+          Infant,
+          travel_by: selectedValuesTravel,
+          personal_care,
+          start_date: "12:02:2022",
+          end_date: "20:02:2022",
+          hotel_type: selectedValuesHotel,
+          meal_require: selectedValuesMeal,
+          meal_type,
+          additional_requirement,
+          full_name,
+          email_address,
+          mobile_no: Number(mobile_no),
+          city,
+          budget_per_person,
+        }),
+      }
+    );
     const data = await res.json();
     console.log(data);
 
@@ -273,7 +279,7 @@ function Packega_details(props) {
 
   const PackageDetails = async () => {
     const res = await fetch(
-      `http://54.89.214.143:3000/package/getPackageData?package_id=${id}`,
+      `https://start-your-tour.onrender.com/package/getPackageData?package_id=${id}`,
       {
         method: "GET",
         headers: {

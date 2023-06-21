@@ -90,35 +90,38 @@ function Registation__vandor2(props) {
       setCity("enter your city");
       setCountry("enter your country");
     } else {
-      const res = await fetch("http://54.89.214.143:3000/user/agency", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          agency_name,
-          pancard_no,
-          agency_fax,
-          agency_state,
-          agency_city,
-          agency_logo,
-          pancard_image,
-          agency_country,
-          agency_state,
-          business_type,
-          agency_securitization_mode,
-          year_in_business,
-          agency_monthlybookingvolume,
-          TDS_exemption,
-          agency_tdsexemption_percent,
-          website,
-          agency_consolidators,
-          agency_remarks,
-          agency_officespace,
-          IATA,
-          role: "agency",
-        }),
-      });
+      const res = await fetch(
+        "https://start-your-tour.onrender.com/user/agency",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            agency_name,
+            pancard_no,
+            agency_fax,
+            agency_state,
+            agency_city,
+            agency_logo,
+            pancard_image,
+            agency_country,
+            agency_state,
+            business_type,
+            agency_securitization_mode,
+            year_in_business,
+            agency_monthlybookingvolume,
+            TDS_exemption,
+            agency_tdsexemption_percent,
+            website,
+            agency_consolidators,
+            agency_remarks,
+            agency_officespace,
+            IATA,
+            role: "agency",
+          }),
+        }
+      );
       const data = await res.json();
       console.log(data);
     }

@@ -26,7 +26,7 @@ function Section1(props) {
   const [safetyInfo, setSafetyInfo] = useState([]);
 
   const HomeData = async () => {
-    const res = await fetch("http://54.89.214.143:3000/home", {
+    const res = await fetch("https://start-your-tour.onrender.com/home", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -143,10 +143,7 @@ function Section1(props) {
                 return (
                   <>
                     <div className="col text-center">
-                      <img
-                        src={"/img1.png" || ele.safetyinfo_photo}
-                        className="img-fluid"
-                      />
+                      <img src={ele.safetyinfo_photo} className="img-fluid" />
                     </div>
                   </>
                 );

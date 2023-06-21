@@ -11,13 +11,16 @@ function User3(props) {
 
   const User = async () => {
     const token = localStorage.getItem("vendorToken");
-    const res = await fetch("http://54.89.214.143:3000/agency/profile", {
-      method: "GET",
-      headers: {
-        Authorization: token,
-        "Content-Type": "application/json",
-      },
-    });
+    const res = await fetch(
+      "https://start-your-tour.onrender.com/agency/profile",
+      {
+        method: "GET",
+        headers: {
+          Authorization: token,
+          "Content-Type": "application/json",
+        },
+      }
+    );
     const data = await res.json();
     setUser3(data.data[0]);
     console.log(data.data[0]);

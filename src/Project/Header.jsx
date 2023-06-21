@@ -100,18 +100,21 @@ function Header() {
       setPassworderror("Enter Your Password");
       return;
     } else {
-      const res = await fetch("http://54.89.214.143:3000/user/loginAll", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: token,
-        },
-        body: JSON.stringify({
-          phone: Number(phone),
-          password,
-          role: "customer",
-        }),
-      });
+      const res = await fetch(
+        "https://start-your-tour.onrender.com/user/loginAll",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: token,
+          },
+          body: JSON.stringify({
+            phone: Number(phone),
+            password,
+            role: "customer",
+          }),
+        }
+      );
       const data = await res.json();
       console.log(data);
 
@@ -126,13 +129,16 @@ function Header() {
   };
 
   const profile = async () => {
-    const res = await fetch("http://54.89.214.143:3000/user/userprofile", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: token,
-      },
-    });
+    const res = await fetch(
+      "https://start-your-tour.onrender.com/user/userprofile",
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: token,
+        },
+      }
+    );
     const data = await res.json();
     console.log(data.data[0].user_details[0].name);
     setName(data.data[0].user_details[0].name);
@@ -171,10 +177,14 @@ function Header() {
                 <FontAwesomeIcon icon={faPhoneVolume} className="me-1" />
                 99999 99999
               </Nav.Link>
-              <Nav.Link href="" className="text-dark">
+              <NavLink
+                to="/vendor/login"
+                style={{ textDecoration: "none", lineHeight: "40px" }}
+                className="text-dark"
+              >
                 <FontAwesomeIcon icon={faUser} className="me-1" />
                 Travel Agent? Join Us
-              </Nav.Link>
+              </NavLink>
               {/* <Nav.Link href="/custom_requirement" className="text-dark">
                 <FontAwesomeIcon icon={faUser} className="me-1" />
                 Custom Requirement

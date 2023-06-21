@@ -125,12 +125,15 @@ function Practic(props) {
   const [categoty, setCategoty] = useState([]);
 
   const getCategoty = async () => {
-    const res = await fetch("http://54.89.214.143:3000/destinationcategory", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    const res = await fetch(
+      "https://start-your-tour.onrender.com/destinationcategory",
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
     const data = await res.json();
     console.log(data.data);
     setCategoty(data.data);
@@ -206,9 +209,9 @@ function Practic(props) {
   const [details, setDetails] = useState({
     departure: "",
     destination: "",
-    total_adult: "",
-    total_child: "",
-    Infant: "",
+    total_adult: 0,
+    total_child: 0,
+    Infant: 0,
     personal_care: "",
     additional_requirement: "",
     full_name: "",
@@ -243,34 +246,37 @@ function Practic(props) {
       budget_per_person,
       meal_type,
     } = details;
-    const res = await fetch("http://54.89.214.143:3000/customrequirements", {
-      method: "POST",
-      headers: {
-        Authorization: token,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        departure,
-        destination,
-        category: selectedValues,
-        total_adult,
-        total_child,
-        Infant,
-        travel_by: selectedValuesTravel,
-        personal_care,
-        start_date: "12:02:2022",
-        end_date: "20:02:2022",
-        hotel_type: selectedValuesHotel,
-        meal_require: selectedValuesMeal,
-        meal_type,
-        additional_requirement,
-        full_name,
-        email_address,
-        mobile_no: Number(mobile_no),
-        city,
-        budget_per_person,
-      }),
-    });
+    const res = await fetch(
+      "https://start-your-tour.onrender.com/customrequirements",
+      {
+        method: "POST",
+        headers: {
+          Authorization: token,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          departure,
+          destination,
+          category: selectedValues,
+          total_adult,
+          total_child,
+          Infant,
+          travel_by: selectedValuesTravel,
+          personal_care,
+          start_date: "12:02:2022",
+          end_date: "20:02:2022",
+          hotel_type: selectedValuesHotel,
+          meal_require: selectedValuesMeal,
+          meal_type,
+          additional_requirement,
+          full_name,
+          email_address,
+          mobile_no: Number(mobile_no),
+          city,
+          budget_per_person,
+        }),
+      }
+    );
     const data = await res.json();
     console.log(data);
 
@@ -462,7 +468,7 @@ function Practic(props) {
                     <div class="anyone">
                       <FontAwesomeIcon icon={faUser} />
                       <select name="total_adult" id="cars" onChange={txt}>
-                        <option value="1">0</option>
+                        <option value="0">0</option>
                         <option value="1">1</option>
                         <option value="2">2</option>
                         <option value="3">3</option>
@@ -480,7 +486,7 @@ function Practic(props) {
                     <div class="anyone">
                       <FontAwesomeIcon icon={faUser} />
                       <select name="total_child" id="cars" onChange={txt}>
-                        <option value="1">0</option>
+                        <option value="0">0</option>
                         <option value="1">1</option>
                         <option value="2">2</option>
                         <option value="3">3</option>
@@ -498,7 +504,7 @@ function Practic(props) {
                     <div class="anyone">
                       <FontAwesomeIcon icon={faUser} />
                       <select name="Infant" id="cars" onChange={txt}>
-                        <option value="1">0</option>
+                        <option value="0">0</option>
                         <option value="1">1</option>
                         <option value="2">2</option>
                         <option value="3">3</option>

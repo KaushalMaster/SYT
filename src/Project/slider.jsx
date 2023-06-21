@@ -33,14 +33,14 @@ const Slider = () => {
   };
 
   const HomeData = async () => {
-    const res = await fetch("http://54.89.214.143:3000/home", {
+    const res = await fetch("https://start-your-tour.onrender.com/home", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
       },
     });
     const data = await res.json();
-    console.log(data.data[0].most_lovaed_destionation);
+    console.log(data.data[0].DestinationData);
     setDestinationData(data.data[0].DestinationData);
     setMost_lovaed_destionation(data.data[0].most_lovaed_destionation);
   };
@@ -75,12 +75,12 @@ const Slider = () => {
               >
                 <div>
                   <img
-                    src={"/img1.png" || ele.photo}
+                    src={ele.photo}
                     alt=""
                     className="img-fluid w-75 "
                     style={{ cursor: "pointer" }}
                   />
-                  <p className="name_c ">{ele.category_name}</p>
+                  <p className="name_c">{ele.category_name}</p>
                 </div>
               </SwiperSlide>
             </>
@@ -104,7 +104,7 @@ const Slider = () => {
             <>
               <SwiperSlide>
                 <img
-                  src={"/img1.png" || ele.place_to_visits}
+                  src={ele.place_to_visits}
                   alt=""
                   className=" text-center img_radius "
                   onClick={() => {
