@@ -248,7 +248,7 @@ function Submit_package_form(props) {
     const token = localStorage.getItem("vendorToken");
     const BidId = sessionStorage.getItem("BidId");
     const res = await fetch(
-      `https://start-your-tour.onrender.com/itinerary?bid_id=${BidDataId}`,
+      `http://54.89.214.143:3000/itinerary?bid_id=${BidDataId}`,
       {
         method: "GET",
         headers: {
@@ -268,7 +268,7 @@ function Submit_package_form(props) {
   const Requirement = async () => {
     const token = localStorage.getItem("vendorToken");
     const res = await fetch(
-      `https://start-your-tour.onrender.com/customrequirements/details?_id=${id}`,
+      `http://54.89.214.143:3000/customrequirements/details?_id=${id}`,
       {
         method: "GET",
         headers: {
@@ -289,16 +289,13 @@ function Submit_package_form(props) {
 
   const getBidPackage = async () => {
     const token = localStorage.getItem("vendorToken");
-    const res = await fetch(
-      "https://start-your-tour.onrender.com/bidpackage/agencybid",
-      {
-        method: "GET",
-        headers: {
-          Authorization: token,
-          "Content-Type": "application/json",
-        },
-      }
-    );
+    const res = await fetch("http://54.89.214.143:3000/bidpackage/agencybid", {
+      method: "GET",
+      headers: {
+        Authorization: token,
+        "Content-Type": "application/json",
+      },
+    });
     const data = await res.json();
     console.log(data.data);
 
@@ -340,7 +337,7 @@ function Submit_package_form(props) {
 
     const token = localStorage.getItem("vendorToken");
 
-    const res = await fetch(`https://start-your-tour.onrender.com/bidpackage`, {
+    const res = await fetch(`http://54.89.214.143:3000/bidpackage`, {
       method: "POST",
       headers: {
         Authorization: token,
@@ -392,7 +389,7 @@ function Submit_package_form(props) {
     } = detailsData;
 
     const res = await fetch(
-      `https://start-your-tour.onrender.com/bidpackage?bid_id=${BidDataId}`,
+      `http://54.89.214.143:3000/bidpackage?bid_id=${BidDataId}`,
       {
         method: "PUT",
         headers: {

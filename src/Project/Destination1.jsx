@@ -23,7 +23,7 @@ function Destination1(props) {
 
   const destinationCategory = async () => {
     const res = await fetch(
-      `https://start-your-tour.onrender.com/destination/getDestinations?category_id=${id}`,
+      `http://54.89.214.143:3000/destination/getDestinations?category_id=${id}`,
       {
         method: "GET",
         headers: {

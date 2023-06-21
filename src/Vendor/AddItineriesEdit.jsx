@@ -33,7 +33,7 @@ const AddItineriesEdit = () => {
 
   const getItinerary = async () => {
     const res = await fetch(
-      `https://start-your-tour.onrender.com/itinerary?bid_id=${BidId}`,
+      `http://54.89.214.143:3000/itinerary?bid_id=${BidId}`,
       {
         method: "GET",
         headers: {
@@ -52,7 +52,7 @@ const AddItineriesEdit = () => {
     const BidId = sessionStorage.getItem("BidId");
     const { day, title, photo, activity, hotel_name } = itineriesData;
     const res = await fetch(
-      `https://start-your-tour.onrender.com/itinerary/biditinerary?bid_id=${BidId}&day=1`,
+      `http://54.89.214.143:3000/itinerary/biditinerary?bid_id=${BidId}&day=1`,
       {
         method: "PUT",
         headers: {

@@ -26,15 +26,12 @@ function Destination(props) {
   const handleShow = () => setShow(true);
 
   const destinationDetail = async () => {
-    const res = await fetch(
-      `https://start-your-tour.onrender.com/placetovisit/${id}`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
+    const res = await fetch(`http://54.89.214.143:3000/placetovisit/${id}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
     const data = await res.json();
     console.log(data.data);
     setDestination(data.data);
@@ -42,7 +39,7 @@ function Destination(props) {
 
   const packageDetail = async () => {
     const res = await fetch(
-      `https://start-your-tour.onrender.com//destination/getDestinationData?destination_id=${id}`,
+      `http://54.89.214.143:3000//destination/getDestinationData?destination_id=${id}`,
       {
         method: "GET",
         headers: {

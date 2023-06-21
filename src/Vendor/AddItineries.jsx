@@ -20,16 +20,13 @@ const AddItineries = () => {
 
   const getBidPackage = async () => {
     const token = localStorage.getItem("vendorToken");
-    const res = await fetch(
-      "https://start-your-tour.onrender.com/bidpackage/agencybid",
-      {
-        method: "GET",
-        headers: {
-          Authorization: token,
-          "Content-Type": "application/json",
-        },
-      }
-    );
+    const res = await fetch("http://54.89.214.143:3000/bidpackage/agencybid", {
+      method: "GET",
+      headers: {
+        Authorization: token,
+        "Content-Type": "application/json",
+      },
+    });
     const data = await res.json();
     console.log(data.data);
 
@@ -77,24 +74,21 @@ const AddItineries = () => {
     // formData.append("hotel_name", hotel_name);
     // formData.append("activity", activity);
 
-    const res = await fetch(
-      "https://start-your-tour.onrender.com/itinerary/addBid",
-      {
-        method: "POST",
-        headers: {
-          Authorization: token,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          bid_id: BidDataId,
-          day,
-          title,
-          photo,
-          hotel_name,
-          activity,
-        }),
-      }
-    );
+    const res = await fetch("http://54.89.214.143:3000/itinerary/addBid", {
+      method: "POST",
+      headers: {
+        Authorization: token,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        bid_id: BidDataId,
+        day,
+        title,
+        photo,
+        hotel_name,
+        activity,
+      }),
+    });
     const data = await res.json();
     console.log(data);
 

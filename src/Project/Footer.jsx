@@ -54,20 +54,17 @@ function Footer(props) {
 
     const { old_password, new_password } = setPass;
 
-    const res = await fetch(
-      "https://start-your-tour.onrender.com/user/updatepassword",
-      {
-        method: "PUT",
-        headers: {
-          Authorization: token,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          old_password,
-          new_password,
-        }),
-      }
-    );
+    const res = await fetch("http://54.89.214.143:3000/user/updatepassword", {
+      method: "PUT",
+      headers: {
+        Authorization: token,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        old_password,
+        new_password,
+      }),
+    });
     const data = await res.json();
     console.log(data);
   };

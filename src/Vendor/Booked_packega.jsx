@@ -30,7 +30,7 @@ function Booked_packega(props) {
   const displayBookPackage = async () => {
     const token = localStorage.getItem("vendorToken");
     const res = await fetch(
-      "https://start-your-tour.onrender.com/bookpackage/bookpackageforagency",
+      "http://54.89.214.143:3000/bookpackage/bookpackageforagency",
       {
         method: "GET",
         headers: {

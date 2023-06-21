@@ -28,7 +28,7 @@ function Submitted_Package_Details(props) {
 
   const Details = async () => {
     const res = await fetch(
-      "https://start-your-tour.onrender.com/package/getPackageData?package_id=6238313cedbea3cf73b42137",
+      "http://54.89.214.143:3000/package/getPackageData?package_id=6238313cedbea3cf73b42137",
       {
         method: "GET",
         headers: {

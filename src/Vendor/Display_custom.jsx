@@ -31,7 +31,7 @@ function Display_custom(props) {
     const token = localStorage.getItem("vendorToken");
 
     const res = await fetch(
-      "https://start-your-tour.onrender.com/customrequirements/Agencyshowdata",
+      "http://54.89.214.143:3000/customrequirements/Agencyshowdata",
       {
         method: "GET",
         headers: {

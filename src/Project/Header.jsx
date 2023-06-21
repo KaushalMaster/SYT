@@ -100,21 +100,18 @@ function Header() {
       setPassworderror("Enter Your Password");
       return;
     } else {
-      const res = await fetch(
-        "https://start-your-tour.onrender.com/user/loginAll",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: token,
-          },
-          body: JSON.stringify({
-            phone: Number(phone),
-            password,
-            role: "customer",
-          }),
-        }
-      );
+      const res = await fetch("http://54.89.214.143:3000/user/loginAll", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: token,
+        },
+        body: JSON.stringify({
+          phone: Number(phone),
+          password,
+          role: "customer",
+        }),
+      });
       const data = await res.json();
       console.log(data);
 
@@ -129,16 +126,13 @@ function Header() {
   };
 
   const profile = async () => {
-    const res = await fetch(
-      "https://start-your-tour.onrender.com/user/userprofile",
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: token,
-        },
-      }
-    );
+    const res = await fetch("http://54.89.214.143:3000/user/userprofile", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token,
+      },
+    });
     const data = await res.json();
     console.log(data.data[0].user_details[0].name);
     setName(data.data[0].user_details[0].name);

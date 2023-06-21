@@ -104,36 +104,33 @@ function Registation__vandor3(props) {
       setEmail2("enter your Correspondence email");
       setCompliance_status("choose compliance status");
     } else {
-      const res = await fetch(
-        "https://start-your-tour.onrender.com/user/agency",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            gst_agency_name,
-            gst_agency_classification,
-            gst_agency_GST,
-            gst_agency_state,
-            gst_agency_city,
-            gst_provisional_GST,
-            gst_contact_person,
-            gst_phone,
-            gst_alternate_phone,
-            gst_email,
-            gst_alternate_email,
-            gst_registration_status,
-            gst_address_line_1,
-            gst_hsn_sac_code,
-            gst_address_line_2,
-            gst_pincode,
-            gst_supply_type,
-            gst_comp_levy_sec10_GST,
-            role: "agency",
-          }),
-        }
-      );
+      const res = await fetch("http://54.89.214.143:3000/user/agency", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          gst_agency_name,
+          gst_agency_classification,
+          gst_agency_GST,
+          gst_agency_state,
+          gst_agency_city,
+          gst_provisional_GST,
+          gst_contact_person,
+          gst_phone,
+          gst_alternate_phone,
+          gst_email,
+          gst_alternate_email,
+          gst_registration_status,
+          gst_address_line_1,
+          gst_hsn_sac_code,
+          gst_address_line_2,
+          gst_pincode,
+          gst_supply_type,
+          gst_comp_levy_sec10_GST,
+          role: "agency",
+        }),
+      });
       const data = await res.json();
       console.log(data);
     }
